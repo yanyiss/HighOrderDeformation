@@ -5726,11 +5726,17 @@ bool Deformation::is_equal(double& x, double& y)
 }
 
 #include "..\src\Validity\btet.h"
+#include <random>
+#include <fstream>
 void Deformation::get_valid_step(VectorXd& x, const VectorXd& d, double& alpha)
 {
 	CABT::tet2_constant_data data;
 	CABT::subdivide_tree tree;
 	CABT::scalar time(alpha);
+	std::random_device rd;  // 用于生成种子
+	std::mt19937 gen(rd()); // Mersenne Twister 19937 引擎
+
+	//time *= 10;
 	for (int i = 0; i < Tet_N; i++)
 	{
 		CABT::mat3_10 val, dir;
@@ -5757,32 +5763,78 @@ void Deformation::get_valid_step(VectorXd& x, const VectorXd& d, double& alpha)
 		dir(0, 9) = x[F9[i]]; dir(1, 9) = x[F9[i] + V_N]; dir(2, 9) = x[F9[i] + 2 * V_N];*/
 
 		val(0, 0) = x[F0[i]]; val(1, 0) = x[F0[i] + V_N]; val(2, 0) = x[F0[i] + 2 * V_N];
-		val(0, 1) = x[F1[i]]; val(1, 1) = x[F1[i] + V_N]; val(2, 1) = x[F1[i] + 2 * V_N];
-		val(0, 2) = x[F3[i]]; val(1, 2) = x[F3[i] + V_N]; val(2, 2) = x[F3[i] + 2 * V_N];
+		val(0, 1) = x[F6[i]]; val(1, 1) = x[F6[i] + V_N]; val(2, 1) = x[F6[i] + 2 * V_N];
+		val(0, 2) = x[F9[i]]; val(1, 2) = x[F9[i] + V_N]; val(2, 2) = x[F9[i] + 2 * V_N];
 		val(0, 3) = x[F2[i]]; val(1, 3) = x[F2[i] + V_N]; val(2, 3) = x[F2[i] + 2 * V_N];
-		val(0, 4) = x[F4[i]]; val(1, 4) = x[F4[i] + V_N]; val(2, 4) = x[F4[i] + 2 * V_N];
+		val(0, 4) = x[F8[i]]; val(1, 4) = x[F8[i] + V_N]; val(2, 4) = x[F8[i] + 2 * V_N];
 		val(0, 5) = x[F5[i]]; val(1, 5) = x[F5[i] + V_N]; val(2, 5) = x[F5[i] + 2 * V_N];
-		val(0, 6) = x[F6[i]]; val(1, 6) = x[F6[i] + V_N]; val(2, 6) = x[F6[i] + 2 * V_N];
+		val(0, 6) = x[F1[i]]; val(1, 6) = x[F1[i] + V_N]; val(2, 6) = x[F1[i] + 2 * V_N];
 		val(0, 7) = x[F7[i]]; val(1, 7) = x[F7[i] + V_N]; val(2, 7) = x[F7[i] + 2 * V_N];
-		val(0, 8) = x[F8[i]]; val(1, 8) = x[F8[i] + V_N]; val(2, 8) = x[F8[i] + 2 * V_N];
-		val(0, 9) = x[F9[i]]; val(1, 9) = x[F9[i] + V_N]; val(2, 9) = x[F9[i] + 2 * V_N];
+		val(0, 8) = x[F4[i]]; val(1, 8) = x[F4[i] + V_N]; val(2, 8) = x[F4[i] + 2 * V_N];
+		val(0, 9) = x[F3[i]]; val(1, 9) = x[F3[i] + V_N]; val(2, 9) = x[F3[i] + 2 * V_N];
 
 		dir(0, 0) = x[F0[i]]; dir(1, 0) = x[F0[i] + V_N]; dir(2, 0) = x[F0[i] + 2 * V_N];
-		dir(0, 1) = x[F1[i]]; dir(1, 1) = x[F1[i] + V_N]; dir(2, 1) = x[F1[i] + 2 * V_N];
-		dir(0, 2) = x[F3[i]]; dir(1, 2) = x[F3[i] + V_N]; dir(2, 2) = x[F3[i] + 2 * V_N];
+		dir(0, 1) = x[F6[i]]; dir(1, 1) = x[F6[i] + V_N]; dir(2, 1) = x[F6[i] + 2 * V_N];
+		dir(0, 2) = x[F9[i]]; dir(1, 2) = x[F9[i] + V_N]; dir(2, 2) = x[F9[i] + 2 * V_N];
 		dir(0, 3) = x[F2[i]]; dir(1, 3) = x[F2[i] + V_N]; dir(2, 3) = x[F2[i] + 2 * V_N];
-		dir(0, 4) = x[F4[i]]; dir(1, 4) = x[F4[i] + V_N]; dir(2, 4) = x[F4[i] + 2 * V_N];
+		dir(0, 4) = x[F8[i]]; dir(1, 4) = x[F8[i] + V_N]; dir(2, 4) = x[F8[i] + 2 * V_N];
 		dir(0, 5) = x[F5[i]]; dir(1, 5) = x[F5[i] + V_N]; dir(2, 5) = x[F5[i] + 2 * V_N];
-		dir(0, 6) = x[F6[i]]; dir(1, 6) = x[F6[i] + V_N]; dir(2, 6) = x[F6[i] + 2 * V_N];
+		dir(0, 6) = x[F1[i]]; dir(1, 6) = x[F1[i] + V_N]; dir(2, 6) = x[F1[i] + 2 * V_N];
 		dir(0, 7) = x[F7[i]]; dir(1, 7) = x[F7[i] + V_N]; dir(2, 7) = x[F7[i] + 2 * V_N];
-		dir(0, 8) = x[F8[i]]; dir(1, 8) = x[F8[i] + V_N]; dir(2, 8) = x[F8[i] + 2 * V_N];
-		dir(0, 9) = x[F9[i]]; dir(1, 9) = x[F9[i] + V_N]; dir(2, 9) = x[F9[i] + 2 * V_N];
+		dir(0, 8) = x[F4[i]]; dir(1, 8) = x[F4[i] + V_N]; dir(2, 8) = x[F4[i] + 2 * V_N];
+		dir(0, 9) = x[F3[i]]; dir(1, 9) = x[F3[i] + V_N]; dir(2, 9) = x[F3[i] + 2 * V_N];
+		//for (int j = 0; j < 10; ++j) { dprint(val(0, j).inf(),",", val(1, j).inf(),",", val(2, j).inf(),","); }
+		/*double vv[30] = { 0.807663 , 0.372121 , 0.4991 ,
+0.769641 , 0.379124 , 0.239324 ,
+0.75124 , 0.396562 , 0.0312357 ,
+0.681321 , 0.426393 , 0.320528 ,
+0.616128 , 0.432535 , 0.0313826 ,
+0.550644 , 0.499718 , 0.163866 ,
+0.672163 , 0.313374 , 0.295082 ,
+0.634206 , 0.316486 , 0.030531 ,
+0.545913 , 0.386881 , 0.124033 ,
+0.550612 , 0.279501 , 0.127056 };
 
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = vv[j * 3 + k]; } }
+		double dd[30] = { 0.439561, 0.983364, 0.774033,
+			0.465791, 0.388434, 0.251303,
+			0.165516, 0.860154, 0.762854,
+			0.522479, 0.393384, 0.709014,
+			0.872876, 0.149052, 0.0982042,
+			0.368479, 0.393983, 0.858574,
+			0.00740578, 0.61864, 0.839126,
+			0.393511, 0.0687877, 0.375775,
+			0.876174, 0.771768, 0.0520671,
+			0.347825, 0.0630748 ,0.744398 };
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = dd[j * 3 + k]; } }*/
+		// 生成随机浮点数
+		//std::uniform_real_distribution<> disReal(0.0, 1.0); // 在 [0.0, 1.0] 范围内生成均匀分布的浮点数
+		//for (int j = 0; j < 10; ++j)
+		//{
+		//	for (int k = 0; k < 3; ++k)
+		//	{
+		//		dir(k, j) = disReal(gen);
+		//	}
+		//	dprint(dir(0, j).inf(), dir(1, j).inf(), dir(2, j).inf());
+		//}
+		//dprint(",.");
+		/*for (int j = 0; j < 10; ++j)
+		{
+			dprint(val(0, j).inf(), val(1, j).inf(), val(2, j).inf());
+		}*/
+		auto vd = val +time * dir;
+		for (int j = 0; j < 10; ++j)
+		{
+			//dprint(vd(0, j).inf(),",", vd(1, j).inf(), ",", vd(2, j).inf(),"," );
+		}
 		CABT::tet2 tet;
 		tet.init(val, dir, &data, &tree);
+		dprint(time.inf());
 		tet.run(time);
+		dprint(time.inf());
 	}
 	alpha = time.inf();
+	dprint("calc regular time done");
 }
 
 void Deformation::Optimization_OMP_with_cut() 
@@ -18112,9 +18164,33 @@ void Deformation::Optimization_OMP_with_cut()
 	std::cout << "================  Backtracking Line Search : Finished !!!  ==================" << std::endl;
 
 	//No_flip_mesh(position_of_mesh, d, alpha);
-	//std::cout << "==================  after flip checker,alpha: " << alpha << std::endl;
+	/*alpha *= 1000;
+	auto init_alpha = alpha;
+	auto aol = alpha;
+	No_flip_mesh(position_of_mesh, d, alpha);
+	std::cout << "==================  after flip checker,alpha: " << alpha << std::endl;*/
 	get_valid_step(position_of_mesh, d, alpha);
+	//dprint("all alpha", init_alpha, alpha, aol);
+#if 0
+	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt", std::ios::app);
 
+	// 检查文件是否成功打开
+	if (outFile.is_open()) {
+		outFile << init_alpha;
+		outFile << std::endl;
+		outFile << alpha;
+		outFile << std::endl;
+		outFile << aol;
+		outFile << std::endl;
+		outFile << std::endl;
+
+		// 关闭文件
+		outFile.close();
+	}
+	else {
+		std::cerr << "Unable to open file.\n";
+	}
+#endif
 	position_of_mesh += alpha * d;
 	 
 	double energyupdate = 0.;
