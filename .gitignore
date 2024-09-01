@@ -1,3 +1,5 @@
+/build/*
+Cmakelists.txt
 # Prerequisites
 *.d
 

@@ -461,7 +461,7 @@ namespace CABT
 
 		//sample_det0 > 0 is neccesary
 		//sample_det1 > 0 is sufficient
-		//dprint("min and max det", sample_det0.minCoeff(), sample_det1.minCoeff());
+		dprint("min and max det", sample_det0.minCoeff(), sample_det1.minCoeff());
 		if (sample_det0.minCoeff() < 0)
 		{
 			//system("pause");
