@@ -8,7 +8,7 @@
 #include <ctime>
 int main(int argc, char *argv[])
 {
-#if 1
+#if 0
 	CABT::tet2_constant_data data;
 	CABT::subdivide_tree tree;
 	std::random_device rd; 
@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
 		tet.run(time);
 		//dprint(time.inf());
 
-		/*outFile << i << " ";
+		outFile << i << " ";
 		dprint("time:");
-		outFile << tet.compute_jacobidet(time) << std::endl;*/
+		outFile << tet.compute_jacobidet(time) << std::endl;
 	}
 	outFile.close();
 	dprint(clock() - start);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	std::random_device rd;  // 用于生成种子
 	std::mt19937 gen(rd()); // Mersenne Twister 19937 引擎
 
-	std::ifstream inFile("C:\\Git Code\\HighOrderDeformation\\src\\example7.txt", std::ios::binary);
+	std::ifstream inFile("C:\\Git Code\\HighOrderDeformation\\src\\info.txt", std::ios::binary);
 	double inf;
 	double sup;
 	if (inFile.is_open()) {

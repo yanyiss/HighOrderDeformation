@@ -54,10 +54,15 @@ namespace CABT
             o3tensor2vec(1, 2, 0) = 15; o3tensor2vec(2, 0, 0) = 16; o3tensor2vec(2, 0, 1) = 17; o3tensor2vec(2, 1, 0) = 18; o3tensor2vec(3, 0, 0) = 19;
 
             time_transform.setConstant(0);
-            time_transform << scalar(1), scalar(0), scalar(0), scalar(0),
+            /*time_transform << scalar(1), scalar(0), scalar(0), scalar(0),
                 -scalar(11) / scalar(2), scalar(9), -scalar(9) / scalar(2), scalar(1),
                 scalar(9), -scalar(45) / scalar(2), scalar(18), -scalar(9) / scalar(2),
-                -scalar(9) / scalar(2), scalar(27) / scalar(2), -scalar(27) / scalar(2), scalar(9) / scalar(2);
+                -scalar(9) / scalar(2), scalar(27) / scalar(2), -scalar(27) / scalar(2), scalar(9) / scalar(2);*/
+            time_transform <<
+                scalar(1), -scalar(11) / scalar(2), scalar(9), -scalar(9) / scalar(2),
+                scalar(0), scalar(9), -scalar(45) / scalar(2), scalar(27) / scalar(2),
+                scalar(0), -scalar(9) / scalar(2), scalar(18), -scalar(27) / scalar(2),
+                scalar(0), scalar(1), -scalar(9) / scalar(2), scalar(9) / scalar(2);
 
 #if 1
 

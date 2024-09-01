@@ -66,13 +66,18 @@ namespace CABT
 		}
 
 		//Lagrange cofficients ---> Bernstein cofficients
-		cof = constant_data->transform * cof;
-
+		cof = constant_data->transform * cof * constant_data->time_transform;
+		cof.row(1) /= t;
+		cof.row(2) /= t * t;
+		cof.row(3) /= t * t * t;
 	}
 
 	void tet2::newton_raphson(const vec4s& cubic_cof, scalar time, scalar dif, scalar& toi, scalar elp)
 	{
 		auto eval = [&](scalar& x) { return  cubic_cof(3) * x * x * x + cubic_cof(2) * x * x + cubic_cof(1) * x + cubic_cof(0); };
+		/*static int t0 = 0;
+		static int t1 = 0;
+		++t0;*/
 		while (true)
 		{
 			scalar ftoi = eval(toi);
@@ -86,10 +91,288 @@ namespace CABT
 				break;
 			}
 			toi = (toi - eval(toi) / dif).inf();
+			//++t1;
+		}
+		//if (t0 % 10000 == 0)
+		{
+			//dprint(t0, t1);
 		}
 	}
 
-	void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes, bool if_calc_root)
+	//void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes, bool if_calc_root)
+	//{
+	//	vec4s abcd;
+	//	for (int i = 0; i < 4; ++i) { abcd(i) = cubic_cof(i).inf(); }
+	//	scalar &a = abcd(3); scalar &b = abcd(2); scalar &c = abcd(1); scalar &d = abcd(0);
+
+	//	//STEP 1
+	//	//test if there is negative cofficient when t==0
+	//	if (d.inf() <= 0)
+	//	{
+	//		mes = InitCollision;
+	//		return;
+	//	}
+
+	//	//STEP 2
+	//	//filter because most of those tets are positive all the time
+	//	//Reference: Penetration-free Projective Dynamics on the GPU
+	//	auto eval = [&](scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
+	//	auto difeval = [&](scalar& x) { return scalar(3) * a * x * x + 2 * b * x + c; };
+	//	scalar toi = time;
+
+	//	if (a.inf() > 0)
+	//	{
+	//		scalar delta = b * b - scalar(3) * a * c;
+	//		if (delta.sup() <= 0)
+	//		{
+	//			mes = NoCollision;
+	//		}
+	//		else
+	//		{
+	//			if (delta.inf() < 0)
+	//			{
+	//				delta = scalar(0, delta.sup());
+	//			}
+	//			delta = CGAL::sqrt(delta);
+	//			scalar x0 = (-b - delta) / (scalar(3) * a);
+	//			scalar x1 = (-b + delta) / (scalar(3) * a);
+	//			scalar fx1 = eval(x1);
+	//			if (fx1.inf() > 0)
+	//			{
+	//				mes = NoCollision;
+	//			}
+	//			else
+	//			{
+	//				if (x1.sup() < 0)
+	//				{
+	//					mes = NoCollision;
+	//				}
+	//				else if (eval(time).inf() > 0)
+	//				{
+	//					mes = NoCollision;
+	//				}
+	//				else
+	//				{
+	//					//newton_raphson
+	//					if (if_calc_root)
+	//					{
+	//						toi = x0.inf() > 0 ? x0.inf() : 0;
+	//						newton_raphson(abcd, time, difeval(-b / (scalar(3) * a)), toi, elp);
+	//						time = toi;
+	//					}
+	//					mes = Collision;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	else if (a.inf() == 0)
+	//	{
+	//		if (b.inf() == 0)
+	//		{
+	//			if (c.inf() == 0)
+	//			{
+	//				mes = NoCollision;
+	//			}
+	//			else
+	//			{
+	//				toi = -d / c;
+	//				if (toi.inf() < time.inf())
+	//				{
+	//					time = toi.inf(); 
+	//					mes = Collision;
+	//				}
+	//			}
+	//		}
+	//		else
+	//		{
+	//			scalar delta = c * c - 4 * b * d;
+	//			if (delta.sup() < 0)
+	//			{
+	//				mes = NoCollision;
+	//			}
+	//			else
+	//			{
+	//				if (delta.inf() < 0)
+	//				{
+	//					delta = scalar(0, delta.sup());
+	//				}
+	//				delta = CGAL::sqrt(delta);
+	//				scalar x0 = (-c + delta) / (2 * b);
+	//				scalar x1 = (-c - delta) / (2 * b);
+	//				toi = time.inf();
+	//				if ((x0.sup() < 0 || x0.inf() > toi.inf()) && (x1.sup() < 0 || x1.inf() > toi.inf()))
+	//				{
+	//					mes = NoCollision;
+	//				}
+	//				else if ((x0.inf() < 0 && 0 < x0.sup()) || (x1.inf() < 0 && 0 < x1.sup()))
+	//				{
+	//					mes = NumericalFailure;
+	//				}
+	//				else
+	//				{
+	//					if (x0.inf() > 0 && x0.inf() < toi.inf())
+	//					{
+	//						toi = x0.inf();
+	//					}
+	//					if (x1.inf() > 0 && x1.inf() < toi.inf())
+	//					{
+	//						toi = x1.inf();
+	//					}
+	//					time = toi.inf();
+	//					mes = Collision;
+	//				}
+	//			}
+	//		}
+	//	}
+	//	else // a.inf() < 0
+	//	{
+	//		scalar delta = b * b - scalar(3) * a * c;
+	//		if (delta.sup() < 0)
+	//		{
+	//			if (eval(time).inf() > 0)
+	//			{
+	//				mes = NoCollision;
+	//			}
+	//			else
+	//			{
+	//				if (if_calc_root)
+	//				{
+	//					toi = scalar(0);
+	//					newton_raphson(abcd, time,
+	//						difeval(scalar(0)).inf() < difeval(time).inf() ? difeval(scalar(0)).inf() : difeval(time).inf(),
+	//						toi, elp);
+	//					time = toi;
+	//				}
+	//				mes = Collision;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			if (delta.inf() < 0)
+	//			{
+	//				delta = scalar(0, delta.sup());
+	//			}
+	//			delta = CGAL::sqrt(delta);
+	//			scalar x0 = (-b + delta) / (scalar(3) * a);
+	//			scalar x1 = (-b - delta) / (scalar(3) * a);
+	//			scalar fx0 = eval(x0);
+	//			if (fx0.inf() > 0)
+	//			{
+	//				if (time.inf() < x1.sup())
+	//				{
+	//					mes = NoCollision;
+	//				}
+	//				else if (eval(time).inf() > 0)
+	//				{
+	//					mes = NoCollision;
+	//				}
+	//				else
+	//				{
+	//					//newton raphson
+	//					if (if_calc_root)
+	//					{
+	//						toi = x1.inf() > 0 ? x1.inf() : 0;
+	//						newton_raphson(abcd, time, difeval(time).inf(), toi, elp);
+	//						time = toi;
+	//					}
+	//					mes = Collision;
+	//				}
+	//			}
+	//			else
+	//			{
+	//				//newton raphson
+	//				if (if_calc_root)
+	//				{
+	//					if (0 < x0.inf())
+	//					{
+	//						toi = scalar(0);
+	//						newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
+	//						time = toi;
+	//					}
+	//					else if (eval(time) > 0)
+	//					{
+	//						mes = NoCollision;
+	//						return;
+	//					}
+	//					else
+	//					{
+	//						toi = scalar(0);
+	//						newton_raphson(abcd, time, difeval(2 * x1 - x0).inf(), toi, elp);
+	//						time = toi;
+	//					}
+	//				}
+	//				mes = Collision;
+	//			}
+	//		}
+	//	}
+	//
+	//}
+
+	//void tet2::tet_status(mat20_4& cof, scalar &time, message &mes, bool if_calc_root)
+	//{
+	//	//if no root in (0, time) return false;
+	//	//else set time = the min root t, and return true;
+	//	message mes_ = NoCollision;
+	//	//static int tgg = 0;
+	//	mes = NoCollision;
+	//	for (int i = 0; i < 20; ++i)
+	//	{
+	//		//++tgg;
+	//		search_cubic_root(cof.row(i), time, mes_, if_calc_root);
+	//		auto eval = [&](scalar &a, scalar &b, scalar &c, scalar &d, scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
+	//		if (mes_ == NumericalFailure)
+	//		{
+	//			dprint("***************************");
+	//			dprint("there is something wrong");
+	//			dprint("***************************");
+	//			system("pause");
+	//			return;
+	//		}
+	//		else if (mes_ == Collision)
+	//		{
+	//			mes = mes_;
+	//		}
+	//	}
+	//	//if (tgg  == 0)
+	//	{
+	//		//dprint("tgg", tgg);
+	//	}
+	//}
+
+	//void tet2::get_min_time(mat20_4 &cof, scalar &time)
+	//{
+	//	message mes;
+	//	int index[5] = { 1,8,64,512,4096 };
+	//	sub_tree->tree_cof[0][0] = cof;
+	//	tet_status(sub_tree->tree_cof[0][0], time, mes, true);
+	//	if (mes == Collision)
+	//	{
+
+	//	}
+	//	for (int i = 0; i < subdivision_times + 1; ++i)
+	//	{
+	//		bool isCollision = true;
+	//		for (int j = 0; i > 0 && j < index[i]; ++j)
+	//		{
+	//			sub_tree->tree_cof[i][j] = constant_data->son_transform[j % 8] * sub_tree->tree_cof[i - 1][j / 8];
+	//		}
+	//		for (int j = 0; j < index[i]; ++j)
+	//		{
+	//			auto ttt = time;
+	//			tet_status(sub_tree->tree_cof[i][j], time, mes, i == subdivision_times ? true : false);
+	//			if (mes == InitCollision)
+	//			{
+	//				if (i < 3) { break; }
+	//				else { time = scalar(0); return; }
+	//			}
+	//			if (mes != NoCollision) { isCollision = false; }
+	//		}
+	//		if (isCollision) { return; }
+	//	}
+	//}
+
+    
+    void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes)
 	{
 		vec4s abcd;
 		for (int i = 0; i < 4; ++i) { abcd(i) = cubic_cof(i).inf(); }
@@ -137,15 +420,16 @@ namespace CABT
 					{
 						mes = NoCollision;
 					}
+					else if (eval(time).inf() > 0)
+					{
+						mes = NoCollision;
+					}
 					else
 					{
 						//newton_raphson
-						if (if_calc_root)
-						{
-							toi = x0.inf() > 0 ? x0.inf() : 0;
-							newton_raphson(abcd, time, difeval(-b / (scalar(3) * a)), toi, elp);
-							time = toi;
-						}
+						toi = x0.inf() > 0 ? x0.inf() : 0;
+						newton_raphson(abcd, time, difeval(-b / (scalar(3) * a)), toi, elp);
+						time = toi;
 						mes = Collision;
 					}
 				}
@@ -215,15 +499,19 @@ namespace CABT
 			scalar delta = b * b - scalar(3) * a * c;
 			if (delta.sup() < 0)
 			{
-				if (if_calc_root)
+				if (eval(time).inf() > 0)
+				{
+					mes = NoCollision;
+				}
+				else
 				{
 					toi = scalar(0);
 					newton_raphson(abcd, time,
 						difeval(scalar(0)).inf() < difeval(time).inf() ? difeval(scalar(0)).inf() : difeval(time).inf(),
 						toi, elp);
 					time = toi;
+					mes = Collision;
 				}
-				mes = Collision;
 			}
 			else
 			{
@@ -241,54 +529,58 @@ namespace CABT
 					{
 						mes = NoCollision;
 					}
+					else if (eval(time).inf() > 0)
+					{
+						mes = NoCollision;
+					}
 					else
 					{
 						//newton raphson
-						if (if_calc_root)
-						{
-							toi = x1.inf() > 0 ? x1.inf() : 0;
-							newton_raphson(abcd, time, difeval(time).inf(), toi, elp);
-							time = toi;
-						}
+						toi = x1.inf() > 0 ? x1.inf() : 0;
+						newton_raphson(abcd, time, difeval(time).inf(), toi, elp);
+						time = toi;
 						mes = Collision;
 					}
 				}
 				else
 				{
 					//newton raphson
-					if (if_calc_root)
+					if (0 < x0.inf())
 					{
-						if (0 < x0.inf())
-						{
-							toi = scalar(0);
-							newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
-							time = toi;
-						}
-						else
-						{
-							toi = scalar(0);
-							newton_raphson(abcd, time, difeval(2 * x1 - x0).inf(), toi, elp);
-							time = toi;
-						}
+						toi = scalar(0);
+						newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
+						time = toi;
+						mes = Collision;
 					}
-					mes = Collision;
+					else if (eval(time) > 0)
+					{
+						mes = NoCollision;
+					}
+					else
+					{
+						toi = scalar(0);
+						newton_raphson(abcd, time, difeval(2 * x1 - x0).inf(), toi, elp);
+						time = toi;
+						mes = Collision;
+					}
 				}
 			}
 		}
 	
 	}
 
-	void tet2::tet_status(mat20_4& cof, scalar &time, message &mes, bool if_calc_root)
+	void tet2::tet_status(mat20_4& cof, scalar& time, message& mes)
 	{
 		//if no root in (0, time) return false;
 		//else set time = the min root t, and return true;
-		scalar primal_time = time;
 		message mes_ = NoCollision;
+		//static int tgg = 0;
 		mes = NoCollision;
 		for (int i = 0; i < 20; ++i)
 		{
-			search_cubic_root(time_transform * cof.row(i).transpose(), time, mes_, if_calc_root);
-			auto eval = [&](scalar &a, scalar &b, scalar &c, scalar &d, scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
+			//++tgg;
+			search_cubic_root(cof.row(i), time, mes_);
+			auto eval = [&](scalar& a, scalar& b, scalar& c, scalar& d, scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
 			if (mes_ == NumericalFailure)
 			{
 				dprint("***************************");
@@ -302,32 +594,28 @@ namespace CABT
 				mes = mes_;
 			}
 		}
+		//if (tgg  == 0)
+		{
+			//dprint("tgg", tgg);
+		}
 	}
 
-	void tet2::get_min_time(mat20_4 &cof, scalar &time)
+	void tet2::get_min_time_recursion(int level, int count, scalar& time)
 	{
-		message mes;
-		int index[5] = { 1,8,64,512,4096 };
-		sub_tree->tree_cof[0][0] = cof;
-		for (int i = 0; i < subdivision_times + 1; ++i)
+		level += 1;
+		count *= 8;
+		for (int i = 0; i < 8; ++i)
 		{
-			bool isCollision = true;
-			for (int j = 0; i > 0 && j < index[i]; ++j)
+			//dprint(level, count, i);
+			sub_tree->tree_cof[level][count] = constant_data->son_transform[i] * sub_tree->tree_cof[level - 1][count / 8];
+			message mes = InitCollision;
+			tet_status(sub_tree->tree_cof[level][count], time, mes);
+			if (mes == InitCollision) { dprint("InitCollision"); exit(0); }
+			else if (mes == Collision && level < 3)
 			{
-				sub_tree->tree_cof[i][j] = constant_data->son_transform[j % 8] * sub_tree->tree_cof[i - 1][j / 8];
+				get_min_time_recursion(level, count, time);
 			}
-			for (int j = 0; j < index[i]; ++j)
-			{
-				tet_status(sub_tree->tree_cof[i][j], time, mes, i == subdivision_times ? true : false);
-				
-				if (mes == InitCollision)
-				{
-					if (i < 3) { break; }
-					else { time = scalar(0); return; }
-				}
-				if (mes != NoCollision) { isCollision = false; }
-			}
-			if (isCollision) { return; }
+			++count;
 		}
 	}
 
@@ -461,12 +749,12 @@ namespace CABT
 
 		//sample_det0 > 0 is neccesary
 		//sample_det1 > 0 is sufficient
-		//dprint("min and max det", sample_det0.minCoeff(), sample_det1.minCoeff());
+		dprint("min and max det", sample_det0.minCoeff(), sample_det1.minCoeff());
 		if (sample_det0.minCoeff() < 0)
 		{
 			//system("pause");
 		}
-#if 1
+#if 0
 		if (sample_det0.minCoeff() < 0)
 		{
 			std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\info.txt", std::ios::binary);
