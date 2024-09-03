@@ -1,18 +1,20 @@
-#include "surfacemeshprocessing.h"
-#include <QtWidgets/QApplication>
+//#include "surfacemeshprocessing.h"
+//#include <QtWidgets/QApplication>
 
 
-
+#include <iostream>
+#include <Eigen/Core>
 #include "..\src\Validity\btet.h"
 #include <random>
 #include <ctime>
 int main(int argc, char *argv[])
 {
-#if 0
+#if 1
 	CABT::tet2_constant_data data;
 	CABT::subdivide_tree tree;
 	std::random_device rd; 
 	std::mt19937 gen(rd());
+#if 1
 	double vv[30] = { 0.807663 , 0.372121 , 0.4991 ,
 0.769641 , 0.379124 , 0.239324 ,
 0.75124 , 0.396562 , 0.0312357 ,
@@ -24,15 +26,30 @@ int main(int argc, char *argv[])
 0.545913 , 0.386881 , 0.124033 ,
 0.550612 , 0.279501 , 0.127056
 	};
+#else
+	double vv[30] = {
+		0,0,0,
+		0,0,1e-5,
+		0,0,2e-5,
+		0,0.5,0,
+		0,0.5,1e-5,
+		0,1,0,
+		0.5,0,0,
+		0.5,0,1e-5,
+		0.5,0.5,0,
+		1,0,0
+	};
+#endif
 	std::uniform_real_distribution<> disReal(0.0, 1.0); // 在 [0.0, 1.0] 范围内生成均匀分布的浮点数
 
 	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt");
 	dprint("begin");
+	CABT::scalar time = CABT::scalar(1);
 	clock_t start = clock();
 	for (int i = 0; i < 10000; ++i)
 	{
 		//dprint("\n\ni", i);
-		if (i % 100 == 0)
+		if (i % 1000 == 0)
 		{
 			dprint(i);
 		}
@@ -42,15 +59,16 @@ int main(int argc, char *argv[])
 		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = disReal(gen); } }
 
 		CABT::tet2 tet;
-		CABT::scalar time = CABT::scalar(1);
 		tet.init(val, dir, &data, &tree);
 		//dprint(time.inf());
 		tet.run(time);
 		//dprint(time.inf());
 
+#if 0
 		outFile << i << " ";
 		dprint("time:");
 		outFile << tet.compute_jacobidet(time) << std::endl;
+#endif
 	}
 	outFile.close();
 	dprint(clock() - start);
@@ -104,17 +122,17 @@ int main(int argc, char *argv[])
 
 
 
-	QApplication app(argc, argv);
+	//QApplication app(argc, argv);
 
-	SurfaceMeshProcessing mainWin;
-	/*mainWin.setGeometry(100,100,mainWin.sizeHint().width(),mainWin.sizeHint().height());
-	mainWin.resize( mainWin.sizeHint() );*/
-	mainWin.showMaximized();
+	//SurfaceMeshProcessing mainWin;
+	///*mainWin.setGeometry(100,100,mainWin.sizeHint().width(),mainWin.sizeHint().height());
+	//mainWin.resize( mainWin.sizeHint() );*/
+	//mainWin.showMaximized();
 
-	if( argc > 1 )
-	{
-		mainWin.open_mesh_from_main(argv[1]);
-	}
+	//if( argc > 1 )
+	//{
+	//	mainWin.open_mesh_from_main(argv[1]);
+	//}
 
-	return app.exec();
+	//return app.exec();
 }

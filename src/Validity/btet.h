@@ -11,7 +11,9 @@ namespace CABT
         tet2() { }
         ~tet2() { }
 
+
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         int subdivision_times = 3;
         tet2_constant_data* constant_data;
         subdivide_tree* sub_tree;
@@ -33,31 +35,34 @@ namespace CABT
         //void cardano(complex<double> a, complex<double> b, complex<double> c, complex<double>d, complex<double>& x1, complex<double>& x2, complex<double>& x3);
        // void calc_cubic_root_with_cardano(scalar a, scalar b, scalar c, scalar d, scalar& time);
         void newton_raphson(const vec4s &cubic_cof, scalar time, scalar dif, scalar &val, scalar elp);
-        void search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes);
-        /*void tet_status(mat20_4& cof, scalar& time, message& mes, bool if_calc_root);
-        void get_min_time(mat20_4& cof, scalar& time);*/
-        void tet_status(mat20_4& cof, scalar& time, message& mes);
-        void get_min_time_recursion(int level, int count, scalar& time);
+#if 0
+        void search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes, bool if_calc_root);
+        void tet_status(mat20_4& cof, scalar& time, message& mes, bool if_calc_root);
+        void get_min_time(mat20_4& cof, scalar& time);
+        mat4_4 time_transform;
         void run(scalar& time)
         {
+            scalar t[4] = { scalar(1),time,time * time,time * time * time };
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 4; ++j)
+                {
+                    time_transform.row(i) = constant_data->time_transform.row(i) / t[i];
+                }
+            }
 
             mat20_4 cof;
             calc_sampling_jacobi_det(time, cof);
-
-            message mes;
-            tet_status(cof, time, mes);
-            if (mes == InitCollision)
-            {
-                dprint("InitCollision");
-                exit(0);
-            }
-            else if (mes == Collision)
-            {
-                sub_tree->tree_cof[0][0] = cof;
-                get_min_time_recursion(0, 0, time);
-            }
+            get_min_time(cof, time);
         }
+#else
+        void search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes);
+        void tet_status(mat20_4& cof, scalar& time, message& mes);
+        void get_min_time_recursion(int level, int count, scalar& time);
+        void run(scalar& time);
+#endif
         scalar compute_jacobidet(scalar& time);
+        void write_bug();
     };
     
 }

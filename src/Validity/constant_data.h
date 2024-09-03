@@ -53,16 +53,33 @@ namespace CABT
             o3tensor2vec(1, 0, 0) = 10; o3tensor2vec(1, 0, 1) = 11; o3tensor2vec(1, 0, 2) = 12; o3tensor2vec(1, 1, 0) = 13; o3tensor2vec(1, 1, 1) = 14;
             o3tensor2vec(1, 2, 0) = 15; o3tensor2vec(2, 0, 0) = 16; o3tensor2vec(2, 0, 1) = 17; o3tensor2vec(2, 1, 0) = 18; o3tensor2vec(3, 0, 0) = 19;
 
-            time_transform.setConstant(0);
-            /*time_transform << scalar(1), scalar(0), scalar(0), scalar(0),
-                -scalar(11) / scalar(2), scalar(9), -scalar(9) / scalar(2), scalar(1),
-                scalar(9), -scalar(45) / scalar(2), scalar(18), -scalar(9) / scalar(2),
-                -scalar(9) / scalar(2), scalar(27) / scalar(2), -scalar(27) / scalar(2), scalar(9) / scalar(2);*/
+            time_transform.setConstant(scalar(0));
             time_transform <<
                 scalar(1), -scalar(11) / scalar(2), scalar(9), -scalar(9) / scalar(2),
                 scalar(0), scalar(9), -scalar(45) / scalar(2), scalar(27) / scalar(2),
                 scalar(0), -scalar(9) / scalar(2), scalar(18), -scalar(27) / scalar(2),
                 scalar(0), scalar(1), -scalar(9) / scalar(2), scalar(9) / scalar(2);
+
+            bern_transform.setConstant(scalar(0));
+            bern_transform <<
+                scalar(1), -scalar(5) / scalar(6), scalar(1) / scalar(3), scalar(0),
+                scalar(0), scalar(3), -scalar(3) / scalar(2), scalar(0),
+                scalar(0), -scalar(3) / scalar(2), scalar(3), scalar(0),
+                scalar(0), scalar(1) / scalar(3), -scalar(5) / scalar(6), scalar(1);
+
+            former_transform.setConstant(scalar(0));
+            former_transform <<
+                scalar(1), scalar(0), scalar(0), scalar(0),
+                scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8);
+            
+            latter_transform.setConstant(scalar(0));
+            latter_transform <<
+                -scalar(9) / scalar(16), scalar(9) / scalar(16), scalar(1) / scalar(16), -scalar(1) / scalar(16),
+                scalar(27) / scalar(16), -scalar(9) / scalar(16), -scalar(27) / scalar(16), scalar(9) / scalar(16),
+                -scalar(27) / scalar(16), -scalar(9) / scalar(16), scalar(27) / scalar(16), scalar(9) / scalar(16),
+                scalar(9) / scalar(16), scalar(9) / scalar(16), -scalar(1) / scalar(16), -scalar(1) / scalar(16);
 
 #if 1
 
@@ -1986,12 +2003,16 @@ namespace CABT
         ~tet2_constant_data() { }
 
     public:
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
         //mat3_10 o2vec2tensor;
         tensor3i o2tensor2vec;
         //mat3_20 o3vec2tensor;
         tensor3i o3tensor2vec;
         mat20_20 transform;
         mat4_4 time_transform;
+        mat4_4 former_transform;
+        mat4_4 latter_transform;
+        mat4_4 bern_transform;
         mat20_20 son_transform[8];
     };
 
@@ -2001,12 +2022,13 @@ namespace CABT
         subdivide_tree() { init(); }
         ~subdivide_tree(){}
     public:
-        std::vector<std::vector<mat20_4>> tree_cof;
+        EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+        std::vector<std::vector<mat20_4, Eigen::aligned_allocator<mat20_4>>> tree_cof;
         void init()
         {
             for (int i = 0; i < 4; ++i)
             {
-                std::vector<mat20_4> la;
+                std::vector<mat20_4, Eigen::aligned_allocator<mat20_4>> la;
                 la.resize(pow(8, i));
                 tree_cof.push_back(std::move(la));
             }

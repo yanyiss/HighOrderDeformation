@@ -5724,12 +5724,13 @@ bool Deformation::is_equal(double& x, double& y)
 {
 	return abs(x - y) < 1e-10;
 }
-
-#include "..\src\Validity\btet.h"
-#include <random>
-#include <fstream>
+//
+//#include "..\src\Validity\btet.h"
+//#include <random>
+//#include <fstream>
 void Deformation::get_valid_step(VectorXd& x, const VectorXd& d, double& alpha)
 {
+#if 0
 	CABT::tet2_constant_data data;
 	CABT::subdivide_tree tree;
 	CABT::scalar time(alpha);
@@ -5835,6 +5836,7 @@ void Deformation::get_valid_step(VectorXd& x, const VectorXd& d, double& alpha)
 	}
 	alpha = time.inf();
 	dprint("calc regular time done");
+#endif
 }
 
 void Deformation::Optimization_OMP_with_cut() 
