@@ -1,3 +1,4 @@
+#pragma once
 #include "..\src\MeshViewer\MeshDefinition.h"
 #include <Eigen/Core>
 #include <unsupported/Eigen/CXX11/Tensor>

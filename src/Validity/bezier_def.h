@@ -1,3 +1,4 @@
+#pragma once
 #include "..\src\MeshViewer\MeshDefinition.h"
 #include <Eigen/Core>
 class bezier_triangle_mesh

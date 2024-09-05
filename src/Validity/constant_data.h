@@ -1,3 +1,4 @@
+#pragma once 
 #include "scalar_def.h"
 #include <Eigen/Core>
 namespace CABT
@@ -69,17 +70,17 @@ namespace CABT
 
             former_transform.setConstant(scalar(0));
             former_transform <<
-                scalar(1), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                scalar(1), scalar(1) / scalar(2), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(2), scalar(3) / scalar(8),
+                scalar(0), scalar(0), scalar(1) / scalar(4), scalar(3) / scalar(8),
                 scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8);
             
             latter_transform.setConstant(scalar(0));
             latter_transform <<
-                -scalar(9) / scalar(16), scalar(9) / scalar(16), scalar(1) / scalar(16), -scalar(1) / scalar(16),
-                scalar(27) / scalar(16), -scalar(9) / scalar(16), -scalar(27) / scalar(16), scalar(9) / scalar(16),
-                -scalar(27) / scalar(16), -scalar(9) / scalar(16), scalar(27) / scalar(16), scalar(9) / scalar(16),
-                scalar(9) / scalar(16), scalar(9) / scalar(16), -scalar(1) / scalar(16), -scalar(1) / scalar(16);
+                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                scalar(3) / scalar(8), scalar(1) / scalar(4), scalar(0), scalar(0),
+                scalar(3) / scalar(8), scalar(1) / scalar(2), scalar(1) / scalar(2), scalar(0),
+                scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(2), scalar(1);
 
 #if 1
 

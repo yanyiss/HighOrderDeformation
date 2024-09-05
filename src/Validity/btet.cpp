@@ -99,279 +99,7 @@ namespace CABT
 			dprint(t0, t1);
 		}*/
 	}
-#if 0
-	void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes, bool if_calc_root)
-	{
-		vec4s abcd;
-		for (int i = 0; i < 4; ++i) { abcd(i) = cubic_cof(i).inf(); }
-		scalar &a = abcd(3); scalar &b = abcd(2); scalar &c = abcd(1); scalar &d = abcd(0);
 
-		//STEP 1
-		//test if there is negative cofficient when t==0
-		if (d.inf() <= 0)
-		{
-			mes = InitCollision;
-			return;
-		}
-
-		//STEP 2
-		//filter because most of those tets are positive all the time
-		//Reference: Penetration-free Projective Dynamics on the GPU
-		auto eval = [&](scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
-		auto difeval = [&](scalar& x) { return scalar(3) * a * x * x + 2 * b * x + c; };
-		scalar toi = time;
-
-		if (a.inf() > 0)
-		{
-			scalar delta = b * b - scalar(3) * a * c;
-			if (delta.sup() <= 0)
-			{
-				mes = NoCollision;
-			}
-			else
-			{
-				if (delta.inf() < 0)
-				{
-					delta = scalar(0, delta.sup());
-				}
-				delta = CGAL::sqrt(delta);
-				scalar x0 = (-b - delta) / (scalar(3) * a);
-				scalar x1 = (-b + delta) / (scalar(3) * a);
-				scalar fx1 = eval(x1);
-				if (fx1.inf() > 0)
-				{
-					mes = NoCollision;
-				}
-				else
-				{
-					if (x1.sup() < 0)
-					{
-						mes = NoCollision;
-					}
-					else if (eval(time).inf() > 0)
-					{
-						mes = NoCollision;
-					}
-					else
-					{
-						//newton_raphson
-						if (if_calc_root)
-						{
-							toi = x0.inf() > 0 ? x0.inf() : 0;
-							newton_raphson(abcd, time, difeval(-b / (scalar(3) * a)), toi, elp);
-							time = toi;
-						}
-						mes = Collision;
-					}
-				}
-			}
-		}
-		else if (a.inf() == 0)
-		{
-			if (b.inf() == 0)
-			{
-				if (c.inf() == 0)
-				{
-					mes = NoCollision;
-				}
-				else
-				{
-					toi = -d / c;
-					if (toi.inf() < time.inf())
-					{
-						time = toi.inf(); 
-						mes = Collision;
-					}
-				}
-			}
-			else
-			{
-				scalar delta = c * c - 4 * b * d;
-				if (delta.sup() < 0)
-				{
-					mes = NoCollision;
-				}
-				else
-				{
-					if (delta.inf() < 0)
-					{
-						delta = scalar(0, delta.sup());
-					}
-					delta = CGAL::sqrt(delta);
-					scalar x0 = (-c + delta) / (2 * b);
-					scalar x1 = (-c - delta) / (2 * b);
-					toi = time.inf();
-					if ((x0.sup() < 0 || x0.inf() > toi.inf()) && (x1.sup() < 0 || x1.inf() > toi.inf()))
-					{
-						mes = NoCollision;
-					}
-					else if ((x0.inf() < 0 && 0 < x0.sup()) || (x1.inf() < 0 && 0 < x1.sup()))
-					{
-						mes = NumericalFailure;
-					}
-					else
-					{
-						if (x0.inf() > 0 && x0.inf() < toi.inf())
-						{
-							toi = x0.inf();
-						}
-						if (x1.inf() > 0 && x1.inf() < toi.inf())
-						{
-							toi = x1.inf();
-						}
-						time = toi.inf();
-						mes = Collision;
-					}
-				}
-			}
-		}
-		else // a.inf() < 0
-		{
-			scalar delta = b * b - scalar(3) * a * c;
-			if (delta.sup() < 0)
-			{
-				if (eval(time).inf() > 0)
-				{
-					mes = NoCollision;
-				}
-				else
-				{
-					if (if_calc_root)
-					{
-						toi = scalar(0);
-						newton_raphson(abcd, time,
-							difeval(scalar(0)).inf() < difeval(time).inf() ? difeval(scalar(0)).inf() : difeval(time).inf(),
-							toi, elp);
-						time = toi;
-					}
-					mes = Collision;
-				}
-			}
-			else
-			{
-				if (delta.inf() < 0)
-				{
-					delta = scalar(0, delta.sup());
-				}
-				delta = CGAL::sqrt(delta);
-				scalar x0 = (-b + delta) / (scalar(3) * a);
-				scalar x1 = (-b - delta) / (scalar(3) * a);
-				scalar fx0 = eval(x0);
-				if (fx0.inf() > 0)
-				{
-					if (time.inf() < x1.sup())
-					{
-						mes = NoCollision;
-					}
-					else if (eval(time).inf() > 0)
-					{
-						mes = NoCollision;
-					}
-					else
-					{
-						//newton raphson
-						if (if_calc_root)
-						{
-							toi = x1.inf() > 0 ? x1.inf() : 0;
-							newton_raphson(abcd, time, difeval(time).inf(), toi, elp);
-							time = toi;
-						}
-						mes = Collision;
-					}
-				}
-				else
-				{
-					//newton raphson
-					if (if_calc_root)
-					{
-						if (0 < x0.inf())
-						{
-							toi = scalar(0);
-							newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
-							time = toi;
-						}
-						else if (eval(time) > 0)
-						{
-							mes = NoCollision;
-							return;
-						}
-						else
-						{
-							toi = scalar(0);
-							newton_raphson(abcd, time, difeval(2 * x1 - x0).inf(), toi, elp);
-							time = toi;
-						}
-					}
-					mes = Collision;
-				}
-			}
-		}
-	
-	}
-
-	void tet2::tet_status(mat20_4& cof, scalar &time, message &mes, bool if_calc_root)
-	{
-		//if no root in (0, time) return false;
-		//else set time = the min root t, and return true;
-		message mes_ = NoCollision;
-		//static int tgg = 0;
-		mes = NoCollision;
-		for (int i = 0; i < 20; ++i)
-		{
-			//++tgg;
-			search_cubic_root(cof.row(i), time, mes_, if_calc_root);
-			auto eval = [&](scalar &a, scalar &b, scalar &c, scalar &d, scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
-			if (mes_ == NumericalFailure)
-			{
-				dprint("***************************");
-				dprint("there is something wrong");
-				dprint("***************************");
-				system("pause");
-				return;
-			}
-			else if (mes_ == Collision)
-			{
-				mes = mes_;
-			}
-		}
-		//if (tgg  == 0)
-		{
-			//dprint("tgg", tgg);
-		}
-	}
-
-	void tet2::get_min_time(mat20_4 &cof, scalar &time)
-	{
-		message mes;
-		int index[5] = { 1,8,64,512,4096 };
-		sub_tree->tree_cof[0][0] = cof;
-		tet_status(sub_tree->tree_cof[0][0], time, mes, true);
-		if (mes == Collision)
-		{
-
-		}
-		for (int i = 0; i < subdivision_times + 1; ++i)
-		{
-			bool isCollision = true;
-			for (int j = 0; i > 0 && j < index[i]; ++j)
-			{
-				sub_tree->tree_cof[i][j] = constant_data->son_transform[j % 8] * sub_tree->tree_cof[i - 1][j / 8];
-			}
-			for (int j = 0; j < index[i]; ++j)
-			{
-				auto ttt = time;
-				tet_status(sub_tree->tree_cof[i][j], time, mes, i == subdivision_times ? true : false);
-				if (mes == InitCollision)
-				{
-					if (i < 3) { break; }
-					else { time = scalar(0); return; }
-				}
-				if (mes != NoCollision) { isCollision = false; }
-			}
-			if (isCollision) { return; }
-		}
-	}
-#else
 #define aa 1
 	void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes)
 	{
@@ -652,7 +380,6 @@ namespace CABT
 			get_min_time_recursion(0, 0, time);
 		}
 	}
-#endif
 
 	scalar tet2::compute_jacobidet(scalar& time)
 	{
@@ -678,9 +405,9 @@ namespace CABT
 		typedef Eigen::Matrix<scalar, sample_num, 1> vecsns;
 		Eigen::VectorXd sample_det0, sample_det1;
 		sample_det0.resize(sample_num); sample_det1.resize(sample_num);
-		sample_det0.setConstant(DBL_MAX); sample_det1.resize(sample_num);
+		sample_det0.setConstant(DBL_MAX); sample_det1.setConstant(DBL_MAX);
 		scalar min_son[4] = { scalar(DBL_MAX),scalar(DBL_MAX),scalar(DBL_MAX),scalar(DBL_MAX) };
-		//time=scalar(0.461049480549675);
+		//time=scalar(0.437);
 		for (int n = 0; n < sample_num; ++n)
 		{
 			mat3_10 val = control_val + scalar(n + 1) / scalar(sample_num) * time.inf() * control_dir;
@@ -788,7 +515,7 @@ namespace CABT
 		{
 			//system("pause");
 		}
-#if 1
+#if 0
 		if (sample_det0.minCoeff() < 0)
 		{
 			write_bug();
@@ -828,38 +555,5 @@ namespace CABT
 		}
 		outFile.close();
 	}
-	/*
 	
-	void tet2::cardano(complex<double> a, complex<double> b, complex<double> c, complex<double>d, complex<double>& x1, complex<double>& x2, complex<double>& x3)
-	{
-		complex<double> u = (9.0 * a * b * c - 27.0 * a * a * d - 2.0 * b * b * b) / (54.0 * a * a * a);
-		complex<double> v = sqrt(3.0 * (4.0 * a * c * c * c - b * b * c * c - 18.0 * a * b * c * d + 27.0 * a * a * d * d + 4.0 * b * b * b * d)) / (18.0 * a * a);
-
-		complex<double> m;
-		if (norm(u + v) >= norm(u - v))
-		{
-			m = pow(u + v, 1.0 / 3.0);
-		}
-		else
-		{
-			m = pow(u - v, 1.0 / 3.0);
-		}
-
-		complex<double> n;
-		if (norm(m) != 0)
-		{
-			n = (b * b - 3.0 * a * c) / (9.0 * a * a * m);
-		}
-		else
-		{
-			n = 0;
-		}
-
-		complex<double> omega1 = complex<double>(-0.5, sqrt(3.0) / 2.0);
-		complex<double> omega2 = complex<double>(-0.5, -sqrt(3.0) / 2.0);
-
-		x1 = m + n - b / (3.0 * a);
-		x2 = omega1 * m + omega2 * n - b / (3.0 * a);
-		x3 = omega2 * m + omega1 * n - b / (3.0 * a);
-	}*/
 }

@@ -4,6 +4,7 @@ project(HighOrderDeformation)
 #设置不生成MinSizeRel;RelWithDebInfo
 set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
 add_definitions(/D_USE_MATH_DEFINES)
+add_definitions(-DNOMINMAX)
 
 #Complier
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
@@ -91,6 +92,7 @@ file (GLOB MeshViewer_FILE
     src/MeshViewer/SamplingOptimization.*
     src/MeshViewer/stb_image.*
 )
+
 
 add_executable(${PROJECT_NAME} ${SRCFILES} 
     ${ANN_FILE}
