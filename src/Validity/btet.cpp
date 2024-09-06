@@ -112,6 +112,9 @@ namespace CABT
 		if (d.inf() <= 0)
 		{
 			mes = InitCollision;
+			time = scalar(0);
+			dprint("InitCollision");
+			system("pause");
 			return;
 		}
 
@@ -243,8 +246,7 @@ namespace CABT
 				else
 				{
 					toi = scalar(0);
-					newton_raphson(abcd, time,
-						difeval(scalar(0)).inf() < difeval(time).inf() ? difeval(scalar(0)).inf() : difeval(time).inf(),
+					newton_raphson(abcd, time, std::min(difeval(scalar(0)).inf(), difeval(time).inf()),
 						toi, elp);
 					time = toi;
 					mes = Collision;
@@ -286,10 +288,17 @@ namespace CABT
 					//newton raphson
 					if (0 < x0.inf())
 					{
-						toi = scalar(0);
-						newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
-						time = toi;
-						mes = Collision;
+						if (time.sup() < x0.inf() && eval(time).inf() > 0)
+						{
+							mes = NoCollision;
+						}
+						else
+						{
+							toi = scalar(0);
+							newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
+							time = toi;
+							mes = Collision;
+						}
 					}
 #if aa
 					else if (eval(time) > 0)
@@ -334,20 +343,26 @@ namespace CABT
 			{
 				mes = mes_;
 			}
+			else if (mes_ == InitCollision)
+			{
+				break;
+			}
 		}
-		//if (tgg  == 0)
+		/*if (tgg  == 0)
 		{
-			//dprint("tgg", tgg);
-		}
+			dprint("tgg", tgg);
+		}*/
 	}
 
 	void tet2::get_min_time_recursion(int level, int count, scalar& time)
 	{
+		dprint(level, count);
 		//subdivision_times = 3;
 		if (level >= subdivision_times)
 			return;
 		level += 1;
 		count *= 8;
+		dprint("******************");
 		for (int i = 0; i < 8; ++i)
 		{
 			//dprint(level, count, i);

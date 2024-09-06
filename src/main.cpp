@@ -165,7 +165,6 @@ void runHocgv_batch()
 
 		hocg.init(val, dir, &data);
 		//dprint(step_time.inf());
-		step_time = CABT::scalar(1);
 		hocg.run(step_time);
 		//dprint(step_time.inf());
 
@@ -217,12 +216,15 @@ void run_example()
 		return;
 	}
 
+	auto valt = val;
+	auto dirt = dir;
+
 	tet.init(val, dir, &data, &tree);
 	tet.run(step_time0);
 	dprint("time:", step_time0);
 	tet.compute_jacobidet(step_time0);
 
-	hocg.init(val, dir, &data);
+	hocg.init(valt, dirt, &data);
 	hocg.run(step_time1);
 	dprint("time:", step_time1);
 	hocg.compute_jacobidet(step_time1);
@@ -243,6 +245,9 @@ void run_batch()
 	CABT::scalar step_time0(1);
 	CABT::scalar step_time1(1);
 	clock_t start = clock();
+	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt");
+	int count = 0;
+	double dif = 0;
 	for (int i = 0; i < 1000; ++i)
 	{
 		//dprint("\n\ni", i);
@@ -253,30 +258,43 @@ void run_batch()
 		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = regular_pos[j * 3 + k]; } }
 		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = disReal(gen); } }
 
-		step_time0 = CABT::scalar(1);
+		auto valt = val;
+		auto dirt = dir;
+
+		//step_time0 = CABT::scalar(1);
 		tet.init(val, dir, &data, &tree);
 		tet.run(step_time0);
 		dprint(i);
-		dprint(step_time0);
+		dprint("step_time0:", step_time0);
 
-		step_time1 = CABT::scalar(1);
-		hocg.init(val, dir, &data);
+		//step_time1 = CABT::scalar(1);
+		hocg.init(valt, dirt, &data);
 		hocg.run(step_time1);
-		dprint(step_time1);
+		dprint("step_time1:", step_time1);
 
 #if 1
 		dprint("step_time:");
 		tet.compute_jacobidet(step_time0);
 		hocg.compute_jacobidet(step_time1);
-		break;
 #endif
+		if (step_time0.inf() > step_time1.inf())
+			++count;
+		dif += step_time0.inf() - step_time1.inf();
+		outFile << i << " " << step_time0 << " " << step_time1 << std::endl;
+		outFile << count << " " << dif << std::endl;
+		outFile << std::endl;
 	}
+	outFile.close();
 	dprint(clock() - start);
 }
 
 int main(int argc, char *argv[])
 {
-	int m_switch[6] = { 0,0,0,0,1,0 };
+#if 0
+	int m_switch[6] = { 0,0,0,0,0,1 };
+#else
+	int m_switch[6] = { 1,0,1,0,0,0 };
+#endif
 	if (m_switch[0])
 	{
 		runMymethod_example();

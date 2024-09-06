@@ -89,6 +89,7 @@ namespace CABT
 		max_subdivide_times = 5;
 		mat20_4 cof;
 		time = scalar(time.inf());
+		//dprint(time);
 		calc_sampling_jacobi_det(time, cof);
 		scalar time_interval(0, time.inf());
 		tet_queue.emplace(0, time_interval, cof);
@@ -101,7 +102,10 @@ namespace CABT
 			if (time_interval.sup() < time_interval.inf() + delta && time_interval.inf() > 0)
 				break;
 			if (tet_queue.empty())
+			{
+				t0 = time_interval.sup();
 				break;
+			}
 			sub_tet current_tet = tet_queue.top();
 			tet_queue.pop();
 			level = std::max(level, current_tet.level);
@@ -110,11 +114,11 @@ namespace CABT
 			t0 = current_tet.time_interval.inf();
 			test_regularity(current_tet.cof, mes);
 			mat20_4 temp_cof;
-#if 0
+#if 1
 			dprint("\ncurrent level:", current_tet.level);
 			dprint("current interval:", current_tet.time_interval);
 			dprint("inclusion:", current_tet.inclusion);
-			dprint("time interval:", t0, t1);
+			dprint("t0, t1:", t0, t1);
 			dprint("message:", mes);
 			dprint("tet_queue size:", tet_queue.size());
 #endif
