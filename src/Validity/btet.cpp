@@ -1,78 +1,9 @@
+#if 0
 #include "btet.h"
+#define aa 1
 namespace CABT
 {
-	void tet2::calc_sampling_jacobi_det(scalar t, mat20_4& cof)
-	{
-		auto& o3tensor2vec = constant_data->o3tensor2vec;
-		auto& o2tensor2vec = constant_data->o2tensor2vec;
-		mat3_20 knot;
-		knot.setConstant(-1);
-		scalar inverse3 = scalar(1) / scalar(3);
-		for (int i = 0; i < 4; ++i)
-		{
-			for (int j = 0; j < 4 - i; ++j)
-			{
-				for (int k = 0; k < 4 - i - j; ++k)
-				{
-					knot(0, o3tensor2vec(i, j, k)) = scalar(i) * inverse3;
-					knot(1, o3tensor2vec(i, j, k)) = scalar(j) * inverse3;
-					knot(2, o3tensor2vec(i, j, k)) = scalar(k) * inverse3;
-				}
-			}
-		}
-		mat3_3 jacobi;
-		for (int n = 0; n < 4; ++n)
-		{
-			mat3_10 val = control_val + scalar(n) / scalar(3) * t * control_dir;
-			for (int i = 0; i < 4; ++i)
-			{
-				for (int j = 0; j < 4 - i; ++j)
-				{
-					for (int k = 0; k < 4 - i - j; ++k)
-					{
-						int id4ijk = o3tensor2vec(i, j, k);
-						jacobi.col(0) = 2.0 *
-							((val.col(o2tensor2vec(1, 0, 0)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(2, 0, 0)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(1, 1, 0)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(1, 0, 1)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
-						jacobi.col(1) = 2.0 *
-							((val.col(o2tensor2vec(0, 1, 0)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(1, 1, 0)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(0, 2, 0)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(0, 1, 1)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
-						jacobi.col(2) = 2.0 *
-							((val.col(o2tensor2vec(0, 0, 1)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(1, 0, 1)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(0, 1, 1)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(0, 0, 2)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
-						cof(id4ijk, n) = jacobi(0, 0) * jacobi(1, 1) * jacobi(2, 2) 
-							+ jacobi(0, 1) * jacobi(1, 2) * jacobi(2, 0)
-							+ jacobi(0, 2) * jacobi(1, 0) * jacobi(2, 1)
-							- jacobi(2, 0) * jacobi(1, 1) * jacobi(0, 2)
-							- jacobi(1, 0) * jacobi(0, 1) * jacobi(2, 2)
-							- jacobi(0, 0) * jacobi(2, 1) * jacobi(1, 2);
-					}
-				}
-			}
-		}
-		for (int i = 0; i < 20; ++i)
-		{
-			if (cof(i, 0).inf() < 0)
-			{
-				dprint("flipping occurs in the initialization");
-				system("pause");
-			}
-		}
-
-		//Lagrange cofficients ---> Bernstein cofficients
-		cof = constant_data->transform * cof * constant_data->time_transform;
-		cof.col(1) /= t;
-		cof.col(2) /= t * t;
-		cof.col(3) /= t * t * t;
-	}
-
-	void tet2::newton_raphson(const vec4s& cubic_cof, scalar time, scalar dif, scalar& toi, scalar elp)
+	void tet_detector::newton_raphson(const vec4s& cubic_cof, scalar time, scalar dif, scalar& toi, scalar elp)
 	{
 		//auto eval = [&](scalar& x) { return  cubic_cof(3) * x * x * x + cubic_cof(2) * x * x + cubic_cof(1) * x + cubic_cof(0); };
 		auto eval = [&](scalar& x) {return cubic_cof(0) + x * (cubic_cof(1) + x * (cubic_cof(2) + x * cubic_cof(3))); };
@@ -100,8 +31,7 @@ namespace CABT
 		}*/
 	}
 
-#define aa 1
-	void tet2::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes)
+	void tet_detector::search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes)
 	{
 		vec4s abcd;
 		for (int i = 0; i < 4; ++i) { abcd(i) = cubic_cof(i).inf(); }
@@ -187,7 +117,7 @@ namespace CABT
 					toi = -d / c;
 					if (toi.inf() < time.inf())
 					{
-						time = toi.inf(); 
+						time = toi.inf();
 						mes = Collision;
 					}
 				}
@@ -316,7 +246,82 @@ namespace CABT
 				}
 			}
 		}
-	
+
+	}
+
+#pragma region tet2
+	void tet2::calc_sampling_jacobi_det(scalar t, mat20_4& cof)
+	{
+		auto& ontensor2vec = constant_data->ontensor2vec;
+		auto& omtensor2vec = constant_data->omtensor2vec;
+		mat3_20 knot;
+		knot.setConstant(-1);
+		scalar inverse3 = scalar(1) / scalar(3);
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4 - i; ++j)
+			{
+				for (int k = 0; k < 4 - i - j; ++k)
+				{
+					knot(0, ontensor2vec(i, j, k)) = scalar(i) * inverse3;
+					knot(1, ontensor2vec(i, j, k)) = scalar(j) * inverse3;
+					knot(2, ontensor2vec(i, j, k)) = scalar(k) * inverse3;
+				}
+			}
+		}
+		mat3_3 jacobi;
+		for (int n = 0; n < 4; ++n)
+		{
+			mat3_10 val = control_val + scalar(n) / scalar(3) * t * control_dir;
+			for (int i = 0; i < 4; ++i)
+			{
+				for (int j = 0; j < 4 - i; ++j)
+				{
+					for (int k = 0; k < 4 - i - j; ++k)
+					{
+						int id4ijk = ontensor2vec(i, j, k);
+						scalar x = 1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk);
+						jacobi.col(0) = 2.0 *
+							((val.col(omtensor2vec(1, 0, 0)) - val.col(omtensor2vec(0, 0, 0))) * x
+								+ (val.col(omtensor2vec(2, 0, 0)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(1, 1, 0)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(1, 0, 1)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
+						jacobi.col(1) = 2.0 *
+							((val.col(omtensor2vec(0, 1, 0)) - val.col(omtensor2vec(0, 0, 0))) * x
+								+ (val.col(omtensor2vec(1, 1, 0)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(0, 2, 0)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(0, 1, 1)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
+						jacobi.col(2) = 2.0 *
+							((val.col(omtensor2vec(0, 0, 1)) - val.col(omtensor2vec(0, 0, 0))) * x
+								+ (val.col(omtensor2vec(1, 0, 1)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(0, 1, 1)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(0, 0, 2)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
+						cof(id4ijk, n) = jacobi(0, 0) * jacobi(1, 1) * jacobi(2, 2) 
+							+ jacobi(0, 1) * jacobi(1, 2) * jacobi(2, 0)
+							+ jacobi(0, 2) * jacobi(1, 0) * jacobi(2, 1)
+							- jacobi(2, 0) * jacobi(1, 1) * jacobi(0, 2)
+							- jacobi(1, 0) * jacobi(0, 1) * jacobi(2, 2)
+							- jacobi(0, 0) * jacobi(2, 1) * jacobi(1, 2);
+					}
+				}
+			}
+		}
+		for (int i = 0; i < 20; ++i)
+		{
+			if (cof(i, 0).inf() < 0)
+			{
+				dprint("flipping occurs in the initialization");
+				system("pause");
+			}
+		}
+
+		//Lagrange cofficients ---> Bernstein cofficients
+		cof = constant_data->transform * cof * constant_data->time_transform;
+		cof.col(1) /= t;
+		cof.col(2) /= t * t;
+		cof.col(3) /= t * t * t;
+		dprint("***********");
+		dprint(cof);
 	}
 
 	void tet2::tet_status(mat20_4& cof, scalar& time, message& mes)
@@ -347,7 +352,9 @@ namespace CABT
 			{
 				break;
 			}
+			dprint(i, time);
 		}
+		exit(0);
 		/*if (tgg  == 0)
 		{
 			dprint("tgg", tgg);
@@ -356,7 +363,7 @@ namespace CABT
 
 	void tet2::get_min_time_recursion(int level, int count, scalar& time)
 	{
-		dprint(level, count);
+		//dprint(level, count);
 		//subdivision_times = 3;
 		if (level >= subdivision_times)
 			return;
@@ -365,7 +372,7 @@ namespace CABT
 		dprint("******************");
 		for (int i = 0; i < 8; ++i)
 		{
-			//dprint(level, count, i);
+			dprint(level, count, i);
 			sub_tree->tree_cof[level][count] = constant_data->son_transform[i] * sub_tree->tree_cof[level - 1][count / 8];
 			message mes = InitCollision;
 			tet_status(sub_tree->tree_cof[level][count], time, mes);
@@ -398,8 +405,8 @@ namespace CABT
 
 	scalar tet2::compute_jacobidet(scalar& time)
 	{
-		auto& o3tensor2vec = constant_data->o3tensor2vec;
-		auto& o2tensor2vec = constant_data->o2tensor2vec;
+		auto& ontensor2vec = constant_data->ontensor2vec;
+		auto& omtensor2vec = constant_data->omtensor2vec;
 		mat3_20 knot; knot.setConstant(-1);
 		scalar inverse3 = scalar(1) / scalar(3);
 		for (int i = 0; i < 4; ++i)
@@ -408,9 +415,9 @@ namespace CABT
 			{
 				for (int k = 0; k < 4 - i - j; ++k)
 				{
-					knot(0, o3tensor2vec(i, j, k)) = scalar(i) * inverse3;
-					knot(1, o3tensor2vec(i, j, k)) = scalar(j) * inverse3;
-					knot(2, o3tensor2vec(i, j, k)) = scalar(k) * inverse3;
+					knot(0, ontensor2vec(i, j, k)) = scalar(i) * inverse3;
+					knot(1, ontensor2vec(i, j, k)) = scalar(j) * inverse3;
+					knot(2, ontensor2vec(i, j, k)) = scalar(k) * inverse3;
 				}
 			}
 		}
@@ -433,22 +440,22 @@ namespace CABT
 				{
 					for (int k = 0; k < 4 - i - j; ++k)
 					{
-						int id4ijk = o3tensor2vec(i, j, k);
+						int id4ijk = ontensor2vec(i, j, k);
 						jacobi.col(0) = 2.0 *
-							((val.col(o2tensor2vec(1, 0, 0)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(2, 0, 0)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(1, 1, 0)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(1, 0, 1)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
+							((val.col(omtensor2vec(1, 0, 0)) - val.col(omtensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
+								+ (val.col(omtensor2vec(2, 0, 0)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(1, 1, 0)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(1, 0, 1)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
 						jacobi.col(1) = 2.0 *
-							((val.col(o2tensor2vec(0, 1, 0)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(1, 1, 0)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(0, 2, 0)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(0, 1, 1)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
+							((val.col(omtensor2vec(0, 1, 0)) - val.col(omtensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
+								+ (val.col(omtensor2vec(1, 1, 0)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(0, 2, 0)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(0, 1, 1)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
 						jacobi.col(2) = 2.0 *
-							((val.col(o2tensor2vec(0, 0, 1)) - val.col(o2tensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
-								+ (val.col(o2tensor2vec(1, 0, 1)) - val.col(o2tensor2vec(1, 0, 0))) * knot(0, id4ijk)
-								+ (val.col(o2tensor2vec(0, 1, 1)) - val.col(o2tensor2vec(0, 1, 0))) * knot(1, id4ijk)
-								+ (val.col(o2tensor2vec(0, 0, 2)) - val.col(o2tensor2vec(0, 0, 1))) * knot(2, id4ijk));
+							((val.col(omtensor2vec(0, 0, 1)) - val.col(omtensor2vec(0, 0, 0))) * (1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk))
+								+ (val.col(omtensor2vec(1, 0, 1)) - val.col(omtensor2vec(1, 0, 0))) * knot(0, id4ijk)
+								+ (val.col(omtensor2vec(0, 1, 1)) - val.col(omtensor2vec(0, 1, 0))) * knot(1, id4ijk)
+								+ (val.col(omtensor2vec(0, 0, 2)) - val.col(omtensor2vec(0, 0, 1))) * knot(2, id4ijk));
 						det(id4ijk) = jacobi(0, 0) * jacobi(1, 1) * jacobi(2, 2)
 							+ jacobi(0, 1) * jacobi(1, 2) * jacobi(2, 0)
 							+ jacobi(0, 2) * jacobi(1, 0) * jacobi(2, 1)
@@ -464,62 +471,6 @@ namespace CABT
 			//dprint(n, sample_det0.minCoeff(), sample_det1.minCoeff());
 
 
-			//dprint("every of det");
-			//for (int i = 0; i < 8; ++i)
-			//{
-			//	auto d0 = constant_data->son_transform[i] * det;
-			//	min_son[0] = d0.minCoeff();
-			//	for (int j = 0; j < 8; ++j)
-			//	{
-			//		auto d1 = constant_data->son_transform[j] * d0;
-			//		//for (int k = 0; k < 20; ++k)
-			//		//{
-			//		//	//dprint(k, d1(k));
-			//		//	if (d1(k).inf() < 0)
-			//		//	{
-			//		//		dprint(i, j);
-			//		//		break;
-			//		//	}
-			//		//}
-			//		min_son[1] = d1.minCoeff();
-			//		for (int k = 0; k < 8; ++k)
-			//		{
-			//			auto d2 = constant_data->son_transform[k] * d1;
-			//			for (int l = 0; l < 20; ++l)
-			//			{
-			//				if (d2(l).is_same(sub_tree->tree_cof[3][k + j * 8 + i * 64](l, 3)))
-			//				{
-			//					int p = 0;
-			//				}
-			//				/*if (i == 0 && j == 0 && k == 0)
-			//				{
-			//					dprint(l, d2(l));
-			//				}*/
-			//				//dprint(k, d1(k));
-			//				if (d2(l).inf() < 0)
-			//				{
-			//					dprint(i, j, k);
-			//					break;
-			//				}
-			//			}
-			//			min_son[2] = d2.minCoeff();
-			//			//for (int l = 0; l < 8; ++l)
-			//			//{
-			//			//	auto d3 = constant_data->son_transform[l] * d2;
-			//			//	//for (int ls = 0; ls < 20; ++ls)
-			//			//	//{
-			//			//	//	//dprint(k, d1(k));
-			//			//	//	if (d3(ls).inf() < 0)
-			//			//	//	{
-			//			//	//		dprint(i, j, k, l);
-			//			//	//		break;
-			//			//	//	}
-			//			//	//}
-			//			//	min_son[3] = d3.minCoeff();
-			//			//}
-			//		}
-			//	}
-			//}
 		}
 		//dprint("min_son", min_son[0],min_son[1],min_son[2],min_son[3]);
 
@@ -530,7 +481,7 @@ namespace CABT
 		{
 			//system("pause");
 		}
-#if 0
+#if 1
 		if (sample_det0.minCoeff() < 0)
 		{
 			write_bug();
@@ -571,4 +522,330 @@ namespace CABT
 		outFile.close();
 	}
 	
+#pragma endregion
+
+#pragma region tet3
+	void tet3::calc_sampling_jacobi_det(scalar t, mat35_4& cof)
+	{
+		auto& o4tensor2vec = constant_data->ontensor2vec;
+		auto& ontensor2vec = constant_data->omtensor2vec;
+		mat3_35 knot;
+		knot.setConstant(-1);
+		scalar inverse4 = scalar(1) / scalar(4);
+		for (int i = 0; i < 5; ++i)
+		{
+			for (int j = 0; j < 5 - i; ++j)
+			{
+				for (int k = 0; k < 5 - i - j; ++k)
+				{
+					knot(0, o4tensor2vec(i, j, k)) = scalar(i) * inverse4;
+					knot(1, o4tensor2vec(i, j, k)) = scalar(j) * inverse4;
+					knot(2, o4tensor2vec(i, j, k)) = scalar(k) * inverse4;
+				}
+			}
+		}
+		mat3_3 jacobi;
+		for (int n = 0; n < 4; ++n)
+		{
+			mat3_20 val = control_val + scalar(n) / scalar(3) * t * control_dir;
+			for (int i = 0; i < 5; ++i)
+			{
+				for (int j = 0; j < 5 - i; ++j)
+				{
+					for (int k = 0; k < 5 - i - j; ++k)
+					{
+						int id4ijk = o4tensor2vec(i, j, k);
+						scalar u = knot(0, id4ijk);
+						scalar v = knot(1, id4ijk);
+						scalar w = knot(2, id4ijk);
+						scalar x = 1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk);
+						jacobi.col(0) = 3.0 *
+							((val.col(ontensor2vec(1, 0, 0)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(2, 0, 0)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(1, 1, 0)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(1, 0, 1)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(2, 1, 0)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(2, 0, 1)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(3, 0, 0)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(1, 2, 0)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(1, 0, 2)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						jacobi.col(1) = 3.0 *
+							((val.col(ontensor2vec(0, 1, 0)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(1, 1, 0)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(0, 2, 0)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(0, 1, 1)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(1, 2, 0)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(0, 2, 1)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(2, 1, 0)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(0, 3, 0)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(0, 1, 2)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						jacobi.col(2) = 3.0 *
+							((val.col(ontensor2vec(0, 0, 1)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(1, 0, 1)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(0, 1, 1)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(0, 0, 2)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(1, 0, 2)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(0, 1, 2)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(2, 0, 1)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(0, 2, 1)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(0, 0, 3)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						cof(id4ijk, n) = jacobi(0, 0) * jacobi(1, 1) * jacobi(2, 2)
+							+ jacobi(0, 1) * jacobi(1, 2) * jacobi(2, 0)
+							+ jacobi(0, 2) * jacobi(1, 0) * jacobi(2, 1)
+							- jacobi(2, 0) * jacobi(1, 1) * jacobi(0, 2)
+							- jacobi(1, 0) * jacobi(0, 1) * jacobi(2, 2)
+							- jacobi(0, 0) * jacobi(2, 1) * jacobi(1, 2);
+					}
+				}
+			}
+		}
+		for (int i = 0; i < 35; ++i)
+		{
+			//dprint(i, cof(i, 0), cof(i, 1), cof(i, 2), cof(i, 3));
+			if (cof(i, 0).inf() < 0)
+			{
+				dprint("flipping occurs in the initialization");
+				system("pause");
+			}
+		}
+
+		//Lagrange cofficients ---> Bernstein cofficients
+		cof = constant_data->transform * cof * constant_data->time_transform;
+		cof.col(1) /= t;
+		cof.col(2) /= t * t;
+		cof.col(3) /= t * t * t;
+
+		/*for (int i = 0; i < 35; ++i)
+		{
+			dprint(i, cof(i, 0), cof(i, 1), cof(i, 2), cof(i, 3));
+			if (cof(i, 0).inf() < 0)
+			{
+				dprint("flipping occurs in the initialization");
+				system("pause");
+			}
+		}*/
+	}
+
+	void tet3::tet_status(mat35_4& cof, scalar& time, message& mes)
+	{
+		//if no root in (0, time) return false;
+		//else set time = the min root t, and return true;
+		message mes_ = NoCollision;
+		//static int tgg = 0;
+		mes = NoCollision;
+		for (int i = 0; i < 35; ++i)
+		{
+			//++tgg;
+			search_cubic_root(cof.row(i), time, mes_);
+			auto eval = [&](scalar& a, scalar& b, scalar& c, scalar& d, scalar& x) { return a * x * x * x + b * x * x + c * x + d; };
+			if (mes_ == NumericalFailure)
+			{
+				dprint("***************************");
+				dprint("there is something wrong");
+				dprint("***************************");
+				system("pause");
+				return;
+			}
+			else if (mes_ == Collision)
+			{
+				mes = mes_;
+			}
+			else if (mes_ == InitCollision)
+			{
+				break;
+			}
+		}
+		/*if (tgg  == 0)
+		{
+			dprint("tgg", tgg);
+		}*/
+	}
+
+	void tet3::get_min_time_recursion(int level, int count, scalar& time)
+	{
+		//dprint(level, count);
+		//subdivision_times = 3;
+		if (level >= subdivision_times)
+			return;
+		level += 1;
+		count *= 8;
+		//dprint("******************");
+		for (int i = 0; i < 8; ++i)
+		{
+			//dprint(level, count, i);
+			sub_tree->tree_cof[level][count] = constant_data->son_transform[i] * sub_tree->tree_cof[level - 1][count / 8];
+			message mes = InitCollision;
+			tet_status(sub_tree->tree_cof[level][count], time, mes);
+			if (mes == InitCollision) { dprint("InitCollision"); exit(0); }
+			else if (mes == Collision)
+			{
+				get_min_time_recursion(level, count, time);
+			}
+			++count;
+		}
+	}
+
+	void tet3::run(scalar& time)
+	{
+		//sub_tree->tree_cof[0][0].setConstant(scalar(1.0));
+		calc_sampling_jacobi_det(time, sub_tree->tree_cof[0][0]);
+
+		message mes(Collision);
+		tet_status(sub_tree->tree_cof[0][0], time, mes);
+		if (mes == InitCollision)
+		{
+			dprint("InitCollision");
+			exit(0);
+		}
+		else if (mes == Collision)
+		{
+			get_min_time_recursion(0, 0, time);
+		}
+	}
+
+	scalar tet3::compute_jacobidet(scalar& time)
+	{
+		auto& o4tensor2vec = constant_data->ontensor2vec;
+		auto& ontensor2vec = constant_data->omtensor2vec;
+		mat3_35 knot; knot.setConstant(-1);
+		scalar inverse4 = scalar(1) / scalar(4);
+		for (int i = 0; i < 5; ++i)
+		{
+			for (int j = 0; j < 5 - i; ++j)
+			{
+				for (int k = 0; k < 5 - i - j; ++k)
+				{
+					knot(0, o4tensor2vec(i, j, k)) = scalar(i) * inverse4;
+					knot(1, o4tensor2vec(i, j, k)) = scalar(j) * inverse4;
+					knot(2, o4tensor2vec(i, j, k)) = scalar(k) * inverse4;
+				}
+			}
+		}
+		mat3_3 jacobi;
+
+#define sample_num 100
+		typedef Eigen::Matrix<scalar, sample_num, 1> vecsns;
+		Eigen::VectorXd sample_det0, sample_det1;
+		sample_det0.resize(sample_num); sample_det1.resize(sample_num);
+		sample_det0.setConstant(DBL_MAX); sample_det1.setConstant(DBL_MAX);
+		scalar min_son[4] = { scalar(DBL_MAX),scalar(DBL_MAX),scalar(DBL_MAX),scalar(DBL_MAX) };
+		//time=scalar(0.437);
+		for (int n = 0; n < sample_num; ++n)
+		{
+			mat3_20 val = control_val + scalar(n + 1) / scalar(sample_num) * time.inf() * control_dir;
+			vec35s det;
+			for (int i = 0; i < 5; ++i)
+			{
+				for (int j = 0; j < 5 - i; ++j)
+				{
+					for (int k = 0; k < 5 - i - j; ++k)
+					{
+						int id4ijk = o4tensor2vec(i, j, k);
+						scalar u = knot(0, id4ijk);
+						scalar v = knot(1, id4ijk);
+						scalar w = knot(2, id4ijk);
+						scalar x = 1.0 - knot(0, id4ijk) - knot(1, id4ijk) - knot(2, id4ijk);
+						jacobi.col(0) = 3.0 *
+							((val.col(ontensor2vec(1, 0, 0)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(2, 0, 0)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(1, 1, 0)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(1, 0, 1)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(2, 1, 0)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(2, 0, 1)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(3, 0, 0)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(1, 2, 0)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(1, 0, 2)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						jacobi.col(1) = 3.0 *
+							((val.col(ontensor2vec(0, 1, 0)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(1, 1, 0)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(0, 2, 0)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(0, 1, 1)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(1, 2, 0)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(0, 2, 1)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(2, 1, 0)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(0, 3, 0)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(0, 1, 2)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						jacobi.col(2) = 3.0 *
+							((val.col(ontensor2vec(0, 0, 1)) - val.col(ontensor2vec(0, 0, 0))) * x * x
+								+ (val.col(ontensor2vec(1, 0, 1)) - val.col(ontensor2vec(1, 0, 0))) * u * x
+								+ (val.col(ontensor2vec(0, 1, 1)) - val.col(ontensor2vec(0, 1, 0))) * v * x
+								+ (val.col(ontensor2vec(0, 0, 2)) - val.col(ontensor2vec(0, 0, 1))) * w * x
+								+ (val.col(ontensor2vec(1, 1, 1)) - val.col(ontensor2vec(1, 1, 0))) * u * v
+								+ (val.col(ontensor2vec(1, 0, 2)) - val.col(ontensor2vec(1, 0, 1))) * u * w
+								+ (val.col(ontensor2vec(0, 1, 2)) - val.col(ontensor2vec(0, 1, 1))) * v * w
+								+ (val.col(ontensor2vec(2, 0, 1)) - val.col(ontensor2vec(2, 0, 0))) * u * u
+								+ (val.col(ontensor2vec(0, 2, 1)) - val.col(ontensor2vec(0, 2, 0))) * v * v
+								+ (val.col(ontensor2vec(0, 0, 3)) - val.col(ontensor2vec(0, 0, 2))) * w * w);
+						det(id4ijk) = jacobi(0, 0) * jacobi(1, 1) * jacobi(2, 2)
+							+ jacobi(0, 1) * jacobi(1, 2) * jacobi(2, 0)
+							+ jacobi(0, 2) * jacobi(1, 0) * jacobi(2, 1)
+							- jacobi(2, 0) * jacobi(1, 1) * jacobi(0, 2)
+							- jacobi(1, 0) * jacobi(0, 1) * jacobi(2, 2)
+							- jacobi(0, 0) * jacobi(2, 1) * jacobi(1, 2);
+					}
+				}
+			}
+			sample_det0(n) = det.minCoeff().inf();
+			det = constant_data->transform * det;
+			sample_det1(n) = det.minCoeff().inf();
+			//dprint(n, sample_det0.minCoeff(), sample_det1.minCoeff());
+
+
+		}
+		//dprint("min_son", min_son[0],min_son[1],min_son[2],min_son[3]);
+
+		//sample_det0 > 0 is neccesary
+		//sample_det1 > 0 is sufficient
+		dprint("min and max det", sample_det0.minCoeff(), sample_det1.minCoeff());
+		if (sample_det0.minCoeff() < 0)
+		{
+			//system("pause");
+		}
+#if 1
+		if (sample_det0.minCoeff() < 0)
+		{
+			write_bug();
+			system("pause");
+		}
+#endif
+		return sample_det1.minCoeff();
+	}
+
+	void tet3::write_bug()
+	{
+		std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\info.txt", std::ios::binary);
+		std::setprecision(15);
+		for (int i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 20; ++j)
+			{
+				scalar x = control_val(i, j);
+				double xinf = x.inf();
+				double xsup = x.sup();
+				outFile.write(reinterpret_cast<const char*>(&xinf), sizeof(double));
+				outFile.write(reinterpret_cast<const char*>(&xsup), sizeof(double));
+				//dprint(i, j, xinf, xsup);
+			}
+		}
+		for (int i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 20; ++j)
+			{
+				scalar x = control_dir(i, j);
+				double xinf = x.inf();
+				double xsup = x.sup();
+				outFile.write(reinterpret_cast<const char*>(&xinf), sizeof(double));
+				outFile.write(reinterpret_cast<const char*>(&xsup), sizeof(double));
+				//dprint(i, j, xinf, xsup);
+			}
+		}
+		outFile.close();
+	}
+#pragma endregion
 }
+#endif
