@@ -9,8 +9,8 @@
 namespace CABT
 {
 #if 1
-	template <int order, int sample_num, typename ConstantData>
-	class hocgv_detector : public detector<order, sample_num, ConstantData>
+	template <int order, typename ConstantData>
+	class hocgv_detector : public detector<order, ConstantData>
 	{
 	public:
 		hocgv_detector() {}
@@ -27,7 +27,7 @@ namespace CABT
 		{
 		public:
 			EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-				sub_tet(int level_, scalar& time_interval_, matn4& cof_)
+			sub_tet(int level_, scalar& time_interval_, matn4& cof_)
 			{
 				level = level_;
 				time_interval = time_interval_;
@@ -36,13 +36,13 @@ namespace CABT
 				{
 				case 2:
 					inclusion = scalar(cof.minCoeff().inf(),
-						std::min({ cof(0,0).inf(),cof(3,0).inf(),cof(9,0).inf(),cof(19,0).inf(),
-							cof(0,3).inf(),cof(3,3).inf(),cof(9,3).inf(),cof(19,3).inf() }));
+						std::min({ cof(0,0).sup(),cof(3,0).sup(),cof(9,0).sup(),cof(19,0).sup(),
+							cof(0,3).sup(),cof(3,3).sup(),cof(9,3).sup(),cof(19,3).sup() }));
 					break;
 				case 3:
 					inclusion = scalar(cof.minCoeff().inf(),
-						std::min({ cof(0,0).inf(),cof(4,0).inf(),cof(14,0).inf(),cof(34,0).inf(),
-							cof(0,3).inf(),cof(4,3).inf(),cof(14,3).inf(),cof(34,3).inf() }));
+						std::min({ cof(0,0).sup(),cof(4,0).sup(),cof(14,0).sup(),cof(34,0).sup(),
+							cof(0,3).sup(),cof(4,3).sup(),cof(14,3).sup(),cof(34,3).sup() }));
 					break;
 				default:
 					dprint("order can only be 2 or 3");
@@ -67,8 +67,8 @@ namespace CABT
 			}
 		};
 
-		double delta = 1e-4;
-		int max_subdivide_times = 5;
+		double delta = 1e-12;
+		int max_subdivide_times = 6;
 		std::priority_queue<sub_tet, std::vector<sub_tet>, std::greater<sub_tet>> tet_queue;
 
 		void init(mat3m& val, mat3m& dir, ConstantData* constant_data_)
@@ -79,24 +79,29 @@ namespace CABT
 
 		void test_regularity(sub_tet& current_tet, message& mes)
 		{
-			/*if (current_tet.inclusion.inf() > 0)
+			if (current_tet.inclusion.inf() > 0)
 				mes = regular;
 			else if (current_tet.inclusion.sup() < 0)
 				mes = flipped;
 			else
-				mes = uncertain;*/
-			auto& cof = current_tet.cof;
+				mes = uncertain;
+			/*auto& cof = current_tet.cof;
 			if (cof.minCoeff().inf() > 0)
 				mes = regular;
 			else if (cof(0, 0).inf() < 0 || cof(3, 0).inf() < 0 || cof(9, 0).inf() < 0 || cof(19, 0).inf() < 0 ||
 				cof(0, 3).inf() < 0 || cof(3, 3).inf() < 0 || cof(9, 3).inf() < 0 || cof(19, 3).inf() < 0)
 				mes = flipped;
 			else
-				mes = uncertain;
+				mes = uncertain;*/
 		}
 
 		void run(scalar& time)
 		{
+			if (time.inf() <= 0)
+			{
+				time = scalar(0);
+				return;
+			}
 			matn4 cof;
 			time = scalar(time.inf());
 			//dprint(time);
@@ -111,9 +116,9 @@ namespace CABT
 			}
 			//Lagrange cofficients ===> Bernstein cofficients
 			cof = constant_data->transform * cof * constant_data->bern_transform;
-			cof.col(1) /= time;
+			/*cof.col(1) /= time;
 			cof.col(2) /= time * time;
-			cof.col(3) /= time * time * time;
+			cof.col(3) /= time * time * time;*/
 
 			scalar time_interval(0, time.inf());
 			tet_queue.emplace(0, time_interval, cof);
@@ -146,6 +151,8 @@ namespace CABT
 				dprint("message:", mes);
 				dprint("tet_queue size:", tet_queue.size());
 #endif
+				static int lls = 0;
+				static int lll = 0;
 				switch (mes)
 				{
 				case regular:
@@ -163,6 +170,7 @@ namespace CABT
 					tet_queue.emplace(current_tet.level + 1,
 						scalar(mid, current_tet.time_interval.sup()), temp_cof);
 					t1 = min(t1, current_tet.time_interval.sup());
+					++lls;
 				}
 				break;
 				case uncertain:
@@ -181,10 +189,14 @@ namespace CABT
 						tet_queue.emplace(current_tet.level + 1,
 							scalar(mid, current_tet.time_interval.sup()), temp_cof);
 					}
+					++lll;
 				}
 				break;
 				}
-
+				if (lll % 100 == 0)
+				{
+					dprint("lll:", lll, lls);
+				}
 			}
 			time = scalar(t0, t1);
 		}
@@ -192,8 +204,8 @@ namespace CABT
 	};
 
 
-	typedef hocgv_detector<2, 100, tet2_constant_data> hocgv2;
-	typedef hocgv_detector<3, 100, tet3_constant_data> hocgv3;
+	typedef hocgv_detector<2, tet2_constant_data> hocgv2;
+	typedef hocgv_detector<3, tet3_constant_data> hocgv3;
 
 #else
 

@@ -8,6 +8,7 @@
 #include "..\src\Validity\hocgv.h"
 #include <random>
 #include <ctime>
+#include <chrono>
 
 std::vector<CABT::scalar> tlist0;
 std::vector<CABT::scalar> tlist1;
@@ -19,7 +20,7 @@ CABT::subdivide_tree<CABT::mat35_4> tree35_4;
 double regular_pos[30] = { 0.807663 , 0.372121 , 0.4991 , 0.769641 , 0.379124 , 0.239324 , 0.75124 , 0.396562 , 0.0312357 ,
 0.681321 , 0.426393 , 0.320528 , 0.616128 , 0.432535 , 0.0313826 , 0.550644 , 0.499718 , 0.163866 ,
 0.672163 , 0.313374 , 0.295082 , 0.634206 , 0.316486 , 0.030531 , 0.545913 , 0.386881 , 0.124033 , 0.550612 , 0.279501 , 0.127056};
-double irregular_pos[30] = { 0,0,0, 0,0,1e-5, 0,0,2e-5, 0,0.5,0, 0,0.5,1e-5, 0,1,0, 0.5,0,0, 0.5,0,1e-5, 0.5,0.5,0, 1,0,0};
+double irregular_pos[30] = { 0,0,0, 0,0,1e-3, 0,0,2e-3, 0,0.5,0, 0,0.5,1e-3, 0,1,0, 0.5,0,0, 0.5,0,1e-3, 0.5,0.5,0, 1,0,0};
 
 double regular_pos3[60] = { 0, 0, 0,  0, 0, 0.3333,  0, 0, 0.6667,  0, 0, 1,  0, 0.3333, 0,
 0, 0.3333, 0.3333,  0, 0.3333, 0.6667,  0, 0.6667, 0,  0, 0.6667, 0.3333,  0, 1, 0,
@@ -65,7 +66,7 @@ void runMymethod_example()
 	//dprint(step_time.inf());
 	tet.run(step_time);
 	dprint("time:", step_time.inf());
-	tet.compute_jacobidet(step_time);
+	//tet.compute_jacobidet(step_time);
 }
 
 void runMymethod_batch()
@@ -78,23 +79,24 @@ void runMymethod_batch()
 
 	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt");
 	dprint("begin");
-	CABT::scalar step_time(1);
+	CABT::scalar sum(0);
 	clock_t start = clock();
 	for (int i = 0; i < 10000; ++i)
 	{
 		//dprint("\n\ni", i);
+		CABT::scalar step_time(1);
 		if (i % 1000 == 0)
 		{
 			dprint(i);
 		}
-		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = regular_pos[j * 3 + k]; } }
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = irregular_pos[j * 3 + k]; } }
 		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = disReal(gen); } }
 
 		tet.init(val, dir, &data2, &tree20_4);
 		//dprint(step_time.inf());
 		tet.run(step_time);
 		//dprint(step_time.inf());
-
+		sum += step_time;
 #if 0
 		outFile << i << " ";
 		dprint("step_time:", step_time);
@@ -102,7 +104,8 @@ void runMymethod_batch()
 #endif
 	}
 	outFile.close();
-	dprint(clock() - start);
+	dprint("time:", clock() - start);
+	dprint("time sum:", sum);
 }
 
 void runHocgv_example()
@@ -143,7 +146,7 @@ void runHocgv_example()
 	hocg.init(val, dir, &data2);
 	hocg.run(step_time);
 	dprint("time:", step_time);
-	hocg.compute_jacobidet(step_time);
+	//hocg.compute_jacobidet(step_time);
 }
 
 void runHocgv_batch()
@@ -156,22 +159,24 @@ void runHocgv_batch()
 
 	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt");
 	dprint("begin");
-	CABT::scalar step_time(1);
+	CABT::scalar sum(0);
 	clock_t start = clock();
 	for (int i = 0; i < 10000; ++i)
 	{
+		CABT::scalar step_time(1);
 		//dprint("\n\ni", i);
 		if (i % 1000 == 0)
 		{
 			dprint(i);
 		}
-		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = regular_pos[j * 3 + k]; } }
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = irregular_pos[j * 3 + k]; } }
 		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = disReal(gen); } }
 
 		hocg.init(val, dir, &data2);
 		//dprint(step_time.inf());
 		hocg.run(step_time);
 		//dprint(step_time.inf());
+		sum += step_time;
 
 #if 0
 		outFile << i << " ";
@@ -181,6 +186,7 @@ void runHocgv_batch()
 	}
 	outFile.close();
 	dprint(clock() - start);
+	dprint("time sum:", sum);
 }
 
 void run_example()
@@ -225,12 +231,12 @@ void run_example()
 	tet.init(val, dir, &data2, &tree20_4);
 	tet.run(step_time0);
 	dprint("time:", step_time0);
-	tet.compute_jacobidet(step_time0);
+	//tet.compute_jacobidet(step_time0);
 
 	hocg.init(valt, dirt, &data2);
 	hocg.run(step_time1);
 	dprint("time:", step_time1);
-	hocg.compute_jacobidet(step_time1);
+	//hocg.compute_jacobidet(step_time1);
 }
 
 void run_batch()
@@ -273,7 +279,7 @@ void run_batch()
 		hocg.run(step_time1);
 		dprint("step_time1:", step_time1);
 
-#if 1
+#if 0
 		dprint("step_time:");
 		tet.compute_jacobidet(step_time0);
 		hocg.compute_jacobidet(step_time1);
@@ -287,6 +293,112 @@ void run_batch()
 	}
 	outFile.close();
 	dprint(clock() - start);
+}
+
+void run_same_batch_test_time()
+{
+	int size = 10000;
+#if 0
+	CABT::write_batch_test_data(2, size);
+	exit(0);
+#endif
+	std::vector<CABT::mat3_10> val0, val1, dir0, dir1;
+	CABT::tet2 tet;
+	CABT::hocgv2 hocg;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> disReal(0.0, 1.0); // 在 [0.0, 1.0] 范围内生成均匀分布的浮点数
+
+	val0.resize(size);
+	val1.resize(size);
+	dir0.resize(size);
+	dir1.resize(size);
+	CABT::read_batch_test_data(2, size, val0, dir0);
+	/*dprint(val0[0]);
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { val0[i](k, j) = regular_pos[j * 3 + k]; } }
+		for (int j = 0; j < 10; ++j) { for (int k = 0; k < 3; ++k) { dir0[i](k, j) = disReal(gen); } }
+	}
+	dprint(val0[0]);
+	exit(0);*/
+	val1 = val0;
+	dir1 = dir0;
+
+#if 1
+
+	for (int k = 3; k <= 3; ++k)
+	{
+		dprint("k", k);
+		CABT::scalar sum(0);
+		auto valk = val0;
+		auto dirk = dir0;
+		auto start = std::chrono::high_resolution_clock::now();
+		for (int i = 0; i < size; ++i)
+		{
+			//dprint(i);
+			CABT::scalar step_time(1);
+			tet.init(valk[i], dirk[i], &data2, &tree20_4);
+			tet.subdivision_times = k;
+			tet.run(step_time);
+			sum += step_time;
+		}
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+		dprint("my method time:", elapsed.count());
+		//dprint(step_time);
+		dprint("time sum:", sum);
+	}
+	return;
+
+	for (int k = 5; k <= 5; ++k)
+	{
+		dprint("k:", k);
+		CABT::scalar sum(0);
+		auto valk = val1;
+		auto dirk = dir1;
+		auto start = std::chrono::high_resolution_clock::now();
+		int queue_size = 0;
+		for (int i = 0; i < size; ++i)
+		{
+			CABT::scalar step_time(1);
+			hocg.init(valk[i], dirk[i], &data2);
+			hocg.max_subdivide_times = k;
+			hocg.run(step_time);
+			queue_size += hocg.tet_queue.size();
+			sum += step_time;
+			/*dprint(step_time);
+			exit(0);*/
+		}
+		dprint("avg queue size:", queue_size / size);
+		auto end = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double, std::milli> elapsed = end - start;
+		dprint("my method time:", elapsed.count());
+		//dprint(step_time);
+		dprint("time sum:", sum);
+	}
+
+
+#else
+	for (int i = 0; i < size; ++i)
+	{
+		//dprint(i);
+		CABT::scalar step_time0(0.5);
+		tet.init(val0[i], dir0[i], &data2, &tree20_4);
+		tet.run(step_time0);
+
+		CABT::scalar step_time1(0.5);
+		hocg.init(val1[i], dir1[i], &data2);
+		hocg.run(step_time1);
+
+		dprint(i, step_time0, step_time1);
+		if (step_time0.inf() > step_time1.sup())
+		{
+			tet.compute_jacobidet(step_time0, 100);
+			exit(0);
+		}
+	}
+#endif
 }
 #pragma endregion
 
@@ -303,10 +415,10 @@ void runMymethod3_batch()
 	dprint("begin");
 	CABT::scalar step_time(1);
 	clock_t start = clock();
-	for (int i = 0; i < 1000; ++i)
+	for (int i = 0; i < 10000; ++i)
 	{
 		//dprint("\n\ni", i);
-		if (i % 100 == 0)
+		if (i % 1000 == 0)
 		{
 			dprint(i);
 		}
@@ -318,10 +430,47 @@ void runMymethod3_batch()
 		tet.run(step_time);
 		//dprint(step_time.inf());
 
-#if 1
+#if 0
 		outFile << i << " ";
 		dprint("step_time:", step_time);
 		outFile << tet.compute_jacobidet(step_time) << std::endl;
+#endif
+	}
+	outFile.close();
+	dprint(clock() - start);
+}
+
+void runHocgv3_batch()
+{
+	CABT::mat3_20 val, dir;
+	CABT::hocgv3 hocg;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<> disReal(0.0, 1.0); // 在 [0.0, 1.0] 范围内生成均匀分布的浮点数
+
+	std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\data.txt");
+	dprint("begin");
+	CABT::scalar step_time(1);
+	clock_t start = clock();
+	for (int i = 0; i < 10000; ++i)
+	{
+		//dprint("\n\ni", i);
+		if (i % 1000 == 0)
+		{
+			dprint(i);
+		}
+		for (int j = 0; j < 20; ++j) { for (int k = 0; k < 3; ++k) { val(k, j) = regular_pos3[j * 3 + k]; } }
+		for (int j = 0; j < 20; ++j) { for (int k = 0; k < 3; ++k) { dir(k, j) = disReal(gen); } }
+
+		hocg.init(val, dir, &data3);
+		//dprint(step_time.inf());
+		hocg.run(step_time);
+		//dprint(step_time.inf());
+
+#if 0
+		outFile << i << " ";
+		dprint("step_time:", step_time);
+		outFile << hocg.compute_jacobidet(step_time) << std::endl;
 #endif
 	}
 	outFile.close();
@@ -332,7 +481,7 @@ void runMymethod3_batch()
 int main(int argc, char *argv[])
 {
 #if 1
-	int m_switch[6] = { 0,1,0,1,0,0 };
+	int m_switch[7] = { 1, 0, 0, 0, 0, 0, 0 };
 #else
 	int m_switch[6] = { 0,1,0,1,0,0 };
 #endif
@@ -360,6 +509,10 @@ int main(int argc, char *argv[])
 	{
 		run_batch();
 	}
+	if (m_switch[6])
+	{
+		run_same_batch_test_time();
+	}
 
 #if 1
 	int m3_switch[6] = { 0,0,0,0,0,0 };
@@ -377,12 +530,12 @@ int main(int argc, char *argv[])
 	/*if (m3_switch[2])
 	{
 		runHocgv_example();
-	}
+	}*/
 	if (m3_switch[3])
 	{
-		runHocgv_batch();
+		runHocgv3_batch();
 	}
-	if (m3_switch[4])
+	/*if (m3_switch[4])
 	{
 		run_example();
 	}
