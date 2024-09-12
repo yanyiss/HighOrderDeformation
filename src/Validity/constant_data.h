@@ -1975,102 +1975,740 @@ namespace CABT
                 // Row 2
                 scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
                 scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(0),
-                // Row 3
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
-                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 4
-                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(3) / scalar(8),
-                scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 5
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
-                scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                // Row 6
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 7
-                scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 8
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
-                scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 9
-                scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 10
-                scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(3) / scalar(8), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 11
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(4),
-                scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(0),
-                // Row 12
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 13
-                scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(4),
-                scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 14
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 15
-                scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 16
-                scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(1) / scalar(4), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 17
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
-                scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 18
-                scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 19
-                scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
-                scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                // Row 20
-                scalar(1) / scalar(8), scalar(3) / scalar(8), scalar(3) / scalar(8), scalar(1) / scalar(8), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
-                scalar(0), scalar(0), scalar(0), scalar(0), scalar(0);
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(3) / scalar(8),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 5
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(3) / scalar(8), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 11
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(4),
+                    scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(1) / scalar(4), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 19
+                    scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 20
+                    scalar(1) / scalar(8), scalar(3) / scalar(8), scalar(3) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0);
             }
 #pragma endregion
 
 
+#endif
+
+#pragma region bisect_transform0
+            {
+                bisect_transform[0] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 2
+                        scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 3
+                        scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 4
+                        scalar(0), scalar(0), scalar(0), scalar(1), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 5
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 6
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 7
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 8
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                        scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                        // Row 9
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                        scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                        // Row 10
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(3) / scalar(8), scalar(0), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                        // Row 11
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 12
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 13
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        // Row 14
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                        scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                        // Row 15
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                        scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                        // Row 16
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(1) / scalar(4), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(4),
+                        // Row 17
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                        // Row 18
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                        // Row 19
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(2),
+                        // Row 20
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                        scalar(0), scalar(0), scalar(0), scalar(0), scalar(1);
+            }
+#pragma endregion
+
+#pragma region bisect_transform1
+            {
+                bisect_transform[1] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 2
+                    scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(0), scalar(0), scalar(0), scalar(1), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 5
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 11
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    // Row 19
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    // Row 20
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(3) / scalar(8), scalar(0), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8);
+            }
+#pragma endregion
+
+#if 1
+#pragma region quadrisect_transform0
+            {
+                quadtrisect_transform[0] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 2
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(1) / scalar(8),
+                    // Row 5
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(3) / scalar(8), scalar(0), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                    // Row 11
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(4),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(4), scalar(1) / scalar(4),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(4),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(2),
+                    // Row 19
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(2),
+                    // Row 20
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1);
+            }
+#pragma endregion
+
+#pragma region quadrisect_transform1
+            {
+                quadtrisect_transform[1] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 2
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(3) / scalar(8), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 5
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 11
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 19
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    // Row 20
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(3) / scalar(8), scalar(0), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8);
+            }
+#pragma endregion
+
+#pragma region quadrisect_transform2
+            {
+                quadtrisect_transform[2] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 2
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(1) / scalar(8),
+                    // Row 5
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(3) / scalar(8), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 11
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(4), scalar(1) / scalar(8),
+                    // Row 19
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 20
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(3) / scalar(8), scalar(0), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8);
+            }
+#pragma endregion
+
+#pragma region quadrisect_transform3
+            {
+                quadtrisect_transform[3] <<
+                    // Row 1
+                    scalar(1), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 2
+                    scalar(0), scalar(1), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 3
+                    scalar(0), scalar(0), scalar(1), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 4
+                    scalar(0), scalar(0), scalar(0), scalar(1), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 5
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(1) / scalar(2),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 6
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 7
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 8
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 9
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 10
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(3) / scalar(8), scalar(0), scalar(3) / scalar(8), scalar(1) / scalar(8),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 11
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 12
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 13
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 14
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 15
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 16
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0), scalar(1) / scalar(4),
+                    scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0), scalar(0),
+                    // Row 17
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0), scalar(0),
+                    // Row 18
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(2), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(0),
+                    // Row 19
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(1) / scalar(8), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(1) / scalar(4), scalar(0), scalar(1) / scalar(4),
+                    scalar(0), scalar(0), scalar(1) / scalar(8), scalar(1) / scalar(8), scalar(0),
+                    // Row 20
+                    scalar(0), scalar(0), scalar(0), scalar(1) / scalar(8), scalar(0),
+                    scalar(0), scalar(0), scalar(0), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(0),
+                    scalar(0), scalar(0), scalar(3) / scalar(8), scalar(0), scalar(1) / scalar(8);
+            }
+#pragma endregion
 #endif
         }
         ~tet2_constant_data() { }
@@ -2086,6 +2724,10 @@ namespace CABT
         mat4_4 bern_transform;
         mat20_20 son_transform[8];
         mat20_20 son_transform0_cubic;
+
+        //std::vector<std::vector<mat20_20>> bisect_transform;
+        mat20_20 bisect_transform[2];
+        mat20_20 quadtrisect_transform[4];
     };
 
     class tet3_constant_data
@@ -5017,6 +5659,8 @@ scalar(0), scalar(0), scalar(0), scalar(0), scalar(0);
         mat4_4 bern_transform;
         mat35_35 son_transform[8];
         mat35_35 son_transform0_cubic;
+        mat35_35 bisect_transform[2];
+        mat35_35 quadtrisect_transform[4];
     };
 
     template <typename mat_size>

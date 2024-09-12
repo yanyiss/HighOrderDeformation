@@ -1,5 +1,4 @@
 #pragma once
-#include "..\src\MeshViewer\MeshDefinition.h"
 #include "scalar_def.h"
 #include "constant_data.h"
 #include "dprint.h"
@@ -9,7 +8,8 @@ namespace CABT
 {
 #if 1
 
-	void write_batch_test_data(int order, int batch_size)
+	static void write_batch_test_data(int order, int batch_size, 
+		std::string file_dir= "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\regular_batch_fixed_val_rand_dir.txt")
 	{
 		int M = (order + 1) * (order + 2) * (order + 3) / 6;
 		std::vector<double> val;
@@ -37,7 +37,7 @@ namespace CABT
 		std::mt19937 gen(rd());
 		std::uniform_real_distribution<> disReal(0.0, 1.0); // 在 [0.0, 1.0] 范围内生成均匀分布的浮点数
 
-		std::ofstream outFile("C:\\Git Code\\HighOrderDeformation\\src\\test_data\\regular_batch_fixed_val_rand_dir.txt", std::ios::binary);
+		std::ofstream outFile(file_dir, std::ios::binary);
 		std::setprecision(15);
 		for (int i = 0; i < 3 * M; ++i)
 		{
@@ -52,9 +52,10 @@ namespace CABT
 	}
 
 	template <typename mat_size>
-	void read_batch_test_data(int order, int batch_size, std::vector<mat_size> &val, std::vector<mat_size> &dir)
+	void read_batch_test_data(int order, int batch_size, std::vector<mat_size> &val, std::vector<mat_size> &dir,
+		std::string file_dir = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\regular_batch_fixed_val_rand_dir.txt")
 	{
-		std::ifstream inFile("C:\\Git Code\\HighOrderDeformation\\src\\test_data\\regular_batch_fixed_val_rand_dir.txt", std::ios::binary);
+		std::ifstream inFile(file_dir, std::ios::binary);
 		double x;
 		int M = (order + 1) * (order + 2) * (order + 3) / 6;
 		if (inFile.is_open()) {
@@ -102,6 +103,13 @@ namespace CABT
 		typedef Eigen::Matrix<scalar, 3, (order + 2)* (order + 3)* (order + 4) / 6> mat3n;
 		typedef Eigen::Matrix<scalar, (order + 2)* (order + 3)* (order + 4) / 6, 4> matn4;
 		
+		enum subdivision_mode
+		{
+			bisect,
+			quadtrisect,
+			octasect
+		};
+		subdivision_mode mode = octasect;
 
 		mat3m control_val;
 		mat3m control_dir;
@@ -481,6 +489,13 @@ namespace CABT
 
         void search_cubic_root(const vec4s& cubic_cof, scalar& time, message& mes, bool if_calc_root)
         {
+
+			/*static int rrr[20] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
+			for (int i = 0; i < 14; ++i)
+			{
+				dprint(i, rrr[i]);
+			}*/
+
 			vec4s abcd;
 			for (int i = 0; i < 4; ++i) { abcd(i) = cubic_cof(i).inf(); }
 			scalar& a = abcd(3); scalar& b = abcd(2); scalar& c = abcd(1); scalar& d = abcd(0);
@@ -511,6 +526,7 @@ namespace CABT
 				if (delta.sup() <= 0)
 				{
 					mes = NoCollision;
+					//++rrr[0];
 				}
 				else
 				{
@@ -525,16 +541,19 @@ namespace CABT
 					if (fx1.inf() > 0)
 					{
 						mes = NoCollision;
+						//++rrr[1];
 					}
 					else
 					{
 						if (x1.sup() < 0)
 						{
 							mes = NoCollision;
+							//++rrr[2];
 						}
 						else if (time.sup() < x1.inf() && eval(time).inf() > 0)
 						{
 							mes = NoCollision;
+							//++rrr[3];
 						}
 						else
 						{
@@ -546,6 +565,7 @@ namespace CABT
 								time = toi;
 							}
 							mes = Collision;
+							//++rrr[4];
 						}
 					}
 				}
@@ -621,17 +641,19 @@ namespace CABT
 					if (eval(time).inf() > 0)
 					{
 						mes = NoCollision;
+						//++rrr[5];
 					}
 					else
 					{
 						if (if_calc_root)
 						{
 							toi = scalar(0);
-							newton_raphson(abcd, time, std::min(difeval(scalar(0)).inf(), difeval(time).inf()),
+							newton_raphson(abcd, time, std::min(c.inf(), difeval(time).inf()),
 								toi, elp);
 							time = toi;
 						}
 						mes = Collision;
+						//++rrr[6];
 					}
 				}
 				else
@@ -646,13 +668,15 @@ namespace CABT
 					scalar fx0 = eval(x0);
 					if (fx0.inf() > 0)
 					{
-						if (time.inf() < x1.sup())
+						if (time.inf() < x1.inf())
 						{
 							mes = NoCollision;
+							//++rrr[7];
 						}
 						else if (eval(time).inf() > 0)
 						{
 							mes = NoCollision;
+							//++rrr[8];
 						}
 						else
 						{
@@ -664,6 +688,7 @@ namespace CABT
 								time = toi;
 							}
 							mes = Collision;
+							//++rrr[9];
 						}
 					}
 					else
@@ -674,31 +699,35 @@ namespace CABT
 							if (time.sup() < x0.inf() && eval(time).inf() > 0)
 							{
 								mes = NoCollision;
+								//++rrr[10];
 							}
 							else
 							{
 								if (if_calc_root)
 								{
 									toi = scalar(0);
-									newton_raphson(abcd, time, difeval(scalar(0)).inf(), toi, elp);
+									newton_raphson(abcd, time, c.inf(), toi, elp);
 									time = toi;
 								}
 								mes = Collision;
+								//++rrr[11];
 							}
 						}
 						else if (eval(time) > 0)
 						{
 							mes = NoCollision;
+							//++rrr[12];
 						}
 						else
 						{
 							if (if_calc_root)
 							{
 								toi = scalar(0);
-								newton_raphson(abcd, time, difeval(2 * x1 - x0).inf(), toi, elp);
+								newton_raphson(abcd, time, difeval(time).inf(), toi, elp);
 								time = toi;
 							}
 							mes = Collision;
+							//++rrr[13];
 						}
 					}
 				}
@@ -723,6 +752,10 @@ namespace CABT
 				else if (mes_ == Collision)
 				{
 					mes = mes_;
+					if (!if_calc_root)
+					{
+						break;
+					}
 				}
 				else if (mes_ == InitCollision)
 				{
@@ -748,14 +781,68 @@ namespace CABT
 				sub_tree->tree_cof[level][count] = constant_data->son_transform[i] * sub_tree->tree_cof[level - 1][count / 8];
 				//num[level]++;
 				message mes = InitCollision;
+#if 1
 				tet_status(sub_tree->tree_cof[level][count], time, mes, if_calc_root);
+#else
+
+				if (if_calc_root)
+					tet_status(sub_tree->tree_cof[level][count], time, mes, if_calc_root);
+				else
+				{
+					auto& cof = sub_tree->tree_cof[level][count];
+					for (int j = 0; j < N; ++j)
+					{
+						//here should be if (cof(j, 0).inf() < 0) { mes = InitCollision; break; }
+						//but ..
+						if (cof(j, 0).inf() < 0) { mes = Collision; break; }
+						if ((cof(j, 0) + cof(j, 1) / scalar(3)).inf() < 0) { mes = Collision; break; }
+						if ((cof(j, 0) + (cof(j, 1) * scalar(2) + cof(j, 2)) / scalar(3)).inf() < 0) { mes = Collision; break; }
+						if ((cof(j, 0) + cof(j, 1) + cof(j, 2) + cof(j, 3)).inf() < 0) { mes = Collision; break; }
+					}
+					tet_status(sub_tree->tree_cof[level][count], time, mes, if_calc_root);
+				}
+#endif
+				/*int l1 = count / 64;
+				int l2 = (count - l1 * 64) / 8;
+				int l3 = count - l1 * 64 - l2 * 8;
+				dprint(level, l1, l2, l3, time.inf());*/
 				if (mes == InitCollision) { dprint("InitCollision"); exit(0); }
 				else if (mes == Collision) { get_min_time_recursion(level, count, time); }
 				++count;
 			}
-			/*if (num[level] % 1000 == 0)
-				dprint(level, num[level]);*/
 		}
+
+		void bisect_space(int level, scalar& time)
+		{
+			if (level >= subdivision_times) return;
+			//static int num[4] = { 0,0,0,0 };
+			level += 1;
+			bool if_calc_root = level == subdivision_times;
+			for (int i = 0; i < 2; ++i)
+			{
+				sub_tree->tree_cof[level][i] = constant_data->bisect_transform[i] * sub_tree->tree_cof[level - 1][0];
+				//num[level]++;
+				message mes = InitCollision;
+				tet_status(sub_tree->tree_cof[level][i], time, mes, if_calc_root);
+				if (mes == InitCollision) { dprint("InitCollision"); exit(0); }
+			}
+		};
+
+		void quadtrisect_space(int level, scalar& time)
+		{
+			if (level >= subdivision_times) return;
+			//static int num[4] = { 0,0,0,0 };
+			level += 1;
+			bool if_calc_root = level == subdivision_times;
+			for (int i = 0; i < 4; ++i)
+			{
+				sub_tree->tree_cof[level][i] = constant_data->quadtrisect_transform[i] * sub_tree->tree_cof[level - 1][0];
+				//num[level]++;
+				message mes = InitCollision;
+				tet_status(sub_tree->tree_cof[level][i], time, mes, if_calc_root);
+				if (mes == InitCollision) { dprint("InitCollision"); exit(0); }
+			}
+		};
 
 		void run(scalar& time)
 		{
@@ -797,7 +884,20 @@ namespace CABT
 			}
 			else if (mes == Collision)
 			{
-				get_min_time_recursion(0, 0, time);
+				switch (mode)
+				{
+				case bisect:
+					bisect_space(0, time);
+					break;
+				case quadtrisect:
+					quadtrisect_space(0, time);
+					break;
+				case octasect:
+					get_min_time_recursion(0, 0, time);
+					break;
+				default:
+					break;
+				}
 			}
 		}
         

@@ -6,6 +6,7 @@
 #include <Eigen/Core>
 #include "..\src\Validity\btet.h"
 #include "..\src\Validity\hocgv.h"
+#include "..\src\Exp\exp.h"
 #include <random>
 #include <ctime>
 #include <chrono>
@@ -298,7 +299,7 @@ void run_batch()
 void run_same_batch_test_time()
 {
 	int size = 10000;
-#if 0
+#if 1
 	CABT::write_batch_test_data(2, size);
 	exit(0);
 #endif
@@ -326,32 +327,51 @@ void run_same_batch_test_time()
 	dir1 = dir0;
 
 #if 1
-
-	for (int k = 3; k <= 3; ++k)
-	{
-		dprint("k", k);
-		CABT::scalar sum(0);
-		auto valk = val0;
-		auto dirk = dir0;
-		auto start = std::chrono::high_resolution_clock::now();
-		for (int i = 0; i < size; ++i)
-		{
-			//dprint(i);
-			CABT::scalar step_time(1);
-			tet.init(valk[i], dirk[i], &data2, &tree20_4);
-			tet.subdivision_times = k;
-			tet.run(step_time);
-			sum += step_time;
-		}
-		auto end = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double, std::milli> elapsed = end - start;
-		dprint("my method time:", elapsed.count());
-		//dprint(step_time);
-		dprint("time sum:", sum);
-	}
-	return;
-
-	for (int k = 5; k <= 5; ++k)
+	//for (int k = 3; k <= 3; ++k)
+	//{
+	//	dprint("k", k);
+	//	CABT::scalar sum(0);
+	//	auto valk = val0;
+	//	auto dirk = dir0;
+	//	auto start = std::chrono::high_resolution_clock::now();
+	//	for (int i = 0; i < size; ++i)
+	//	{
+	//		//dprint(i);
+	//		CABT::scalar step_time(0.1);
+	//		tet.init(valk[i], dirk[i], &data2, &tree20_4);
+	//		tet.subdivision_times = k;
+	//		tet.run(step_time);
+	//		sum += step_time;
+	//	}
+	//	auto end = std::chrono::high_resolution_clock::now();
+	//	std::chrono::duration<double, std::milli> elapsed = end - start;
+	//	dprint("my method time:", elapsed.count());
+	//	//dprint(step_time);
+	//	dprint("time sum:", sum);
+	//}
+	//for (int k = 3; k <= 3; ++k)
+	//{
+	//	dprint("k", k);
+	//	CABT::scalar sum(0);
+	//	auto valk = val0;
+	//	auto dirk = dir0;
+	//	auto start = std::chrono::high_resolution_clock::now();
+	//	for (int i = 0; i < size; ++i)
+	//	{
+	//		//dprint(i);
+	//		CABT::scalar step_time(1);
+	//		tet.init(valk[i], dirk[i], &data2, &tree20_4);
+	//		tet.subdivision_times = k;
+	//		tet.run(step_time);
+	//		sum += step_time;
+	//	}
+	//	auto end = std::chrono::high_resolution_clock::now();
+	//	std::chrono::duration<double, std::milli> elapsed = end - start;
+	//	dprint("my method time:", elapsed.count());
+	//	//dprint(step_time);
+	//	dprint("time sum:", sum);
+	//}
+	for (int k = 12; k <= 12; ++k)
 	{
 		dprint("k:", k);
 		CABT::scalar sum(0);
@@ -373,10 +393,15 @@ void run_same_batch_test_time()
 		dprint("avg queue size:", queue_size / size);
 		auto end = std::chrono::high_resolution_clock::now();
 		std::chrono::duration<double, std::milli> elapsed = end - start;
-		dprint("my method time:", elapsed.count());
+		dprint("hocgv time:", elapsed.count());
 		//dprint(step_time);
 		dprint("time sum:", sum);
 	}
+
+	
+	//return;
+
+	
 
 
 #else
@@ -481,7 +506,11 @@ void runHocgv3_batch()
 int main(int argc, char *argv[])
 {
 #if 1
-	int m_switch[7] = { 1, 0, 0, 0, 0, 0, 0 };
+	CABT::exp1::run_exp1();
+#endif
+
+#if 1
+	int m_switch[7] = { 0, 0, 0, 0, 0, 0, 1 };
 #else
 	int m_switch[6] = { 0,1,0,1,0,0 };
 #endif

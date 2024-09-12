@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "..\src\MeshViewer\MeshDefinition.h"
 #include "scalar_def.h"
 #include "constant_data.h"
 #include "btet.h"
@@ -95,12 +94,13 @@ namespace CABT
 				mes = uncertain;*/
 		}
 
-		void run(scalar& time)
+		double run(scalar& time, double stop_time = DBL_MAX)
 		{
 			if (time.inf() <= 0)
 			{
 				time = scalar(0);
-				return;
+				exit(0);
+				return -1;
 			}
 			matn4 cof;
 			time = scalar(time.inf());
@@ -110,7 +110,7 @@ namespace CABT
 			{
 				if (cof(i, 0).inf() < 0)
 				{
-					dprint("flipping occurs in the initialization");
+					dprint("HOCGV: flipping occurs in the initialization");
 					system("pause");
 				}
 			}
@@ -126,9 +126,13 @@ namespace CABT
 			message mes;
 			double t0 = time_interval.inf();
 			double t1 = time_interval.sup();
+			double conservative_threshold = t0;
 			while (true)
 			{
-				if (time_interval.sup() < time_interval.inf() + delta && time_interval.inf() > 0)
+				//dprint(time_interval.sup(), time_interval.inf(), time_interval.inf() + delta);
+				if (t0 >= stop_time)
+					break;
+				if (t1 < t0 + delta && t0 > 0)
 					break;
 				if (tet_queue.empty())
 				{
@@ -140,7 +144,9 @@ namespace CABT
 				level = std::max(level, current_tet.level);
 				if (level > max_subdivide_times)
 					break;
+				conservative_threshold = t0;
 				t0 = current_tet.time_interval.inf();
+				//dprint(t0, conservative_threshold);
 				test_regularity(current_tet, mes);
 				matn4 temp_cof;
 #if 0
@@ -151,8 +157,8 @@ namespace CABT
 				dprint("message:", mes);
 				dprint("tet_queue size:", tet_queue.size());
 #endif
-				static int lls = 0;
-				static int lll = 0;
+				//static int lls = 0;
+				//static int lll = 0;
 				switch (mes)
 				{
 				case regular:
@@ -170,7 +176,7 @@ namespace CABT
 					tet_queue.emplace(current_tet.level + 1,
 						scalar(mid, current_tet.time_interval.sup()), temp_cof);
 					t1 = min(t1, current_tet.time_interval.sup());
-					++lls;
+					//++lls;
 				}
 				break;
 				case uncertain:
@@ -189,16 +195,23 @@ namespace CABT
 						tet_queue.emplace(current_tet.level + 1,
 							scalar(mid, current_tet.time_interval.sup()), temp_cof);
 					}
-					++lll;
+					//++lll;
 				}
 				break;
 				}
-				if (lll % 100 == 0)
+				/*if (lll % 100 == 0)
 				{
 					dprint("lll:", lll, lls);
-				}
+				}*/
+			}
+			if (t0 > time.inf())
+			{
+				t0 = time.inf(); t1 = t0;
 			}
 			time = scalar(t0, t1);
+			//dprint(t0, conservative_threshold);
+			//dprint("\n\n\n");
+			return conservative_threshold;
 		}
 
 	};

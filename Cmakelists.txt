@@ -69,6 +69,10 @@ file (GLOB Validity_FILE
     src/Validity/*
 )
 
+file (GLOB Exp_FILE
+    src/Exp/*
+)
+
 file (GLOB GUI_FILE
     src/MeshViewer/Aux_Transform_Mesh_Dialog.h
     src/main.cpp
@@ -98,6 +102,7 @@ add_executable(${PROJECT_NAME} ${SRCFILES}
     ${ANN_FILE}
     ${BezierTet_FILE}
     ${Validity_FILE}
+    ${Exp_FILE}
     ${GUI_FILE}
     ${MeshViewer_FILE}
     ${QRC_FILES}
@@ -114,6 +119,7 @@ endif()
 source_group(ANN FILES ${ANN_FILE})
 source_group(BezierTet FILES ${BezierTet_FILE})
 source_group(Validity FILES ${Validity_FILE})
+source_group(Exp FILES ${Exp_FILE})
 source_group(GUI FILES ${GUI_FILE})
 source_group(MeshViewer FILES ${MeshViewer_FILE})
 
