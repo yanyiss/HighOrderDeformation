@@ -1,11 +1,10 @@
-﻿//#include "surfacemeshprocessing.h"
-//#include <QtWidgets/QApplication>
+﻿
 
-
+#if 1
 #include <iostream>
 #include <Eigen/Core>
-#include "..\src\Validity\btet.h"
-#include "..\src\Validity\hocgv.h"
+#include "..\src\Validity\btet.hpp"
+#include "..\src\Validity\hocgv.hpp"
 #include "..\src\Exp\exp.h"
 #include <random>
 #include <ctime>
@@ -17,7 +16,7 @@ std::vector<CABT::scalar> tlist1;
 CABT::tet2_constant_data data2;
 CABT::subdivide_tree<CABT::mat20_4> tree20_4;
 CABT::tet3_constant_data data3;
-CABT::subdivide_tree<CABT::mat35_4> tree35_4;
+CABT::subdivide_tree<CABT::mat84_4> tree35_4;
 double regular_pos[30] = { 0.807663 , 0.372121 , 0.4991 , 0.769641 , 0.379124 , 0.239324 , 0.75124 , 0.396562 , 0.0312357 ,
 0.681321 , 0.426393 , 0.320528 , 0.616128 , 0.432535 , 0.0313826 , 0.550644 , 0.499718 , 0.163866 ,
 0.672163 , 0.313374 , 0.295082 , 0.634206 , 0.316486 , 0.030531 , 0.545913 , 0.386881 , 0.124033 , 0.550612 , 0.279501 , 0.127056};
@@ -503,10 +502,22 @@ void runHocgv3_batch()
 }
 #pragma endregion
 
+
 int main(int argc, char *argv[])
 {
+
+#if USE_PROTECTOR
+	CABT::scalar::Protector p;
+#endif
+
 #if 1
 	CABT::exp1::run_exp1();
+	return 1;
+#endif
+
+#if 0
+	CABT::exp3::run_exp3();
+	return 1;
 #endif
 
 #if 1
@@ -592,3 +603,23 @@ int main(int argc, char *argv[])
 
 	//return app.exec();
 }
+#else
+#include "surfacemeshprocessing.h"
+#include <QtWidgets/QApplication>
+int main(int argc, char* argv[])
+{
+	QApplication app(argc, argv);
+
+	SurfaceMeshProcessing mainWin;
+	/*mainWin.setGeometry(100,100,mainWin.sizeHint().width(),mainWin.sizeHint().height());
+	mainWin.resize( mainWin.sizeHint() );*/
+	mainWin.showMaximized();
+
+	if( argc > 1 )
+	{
+		mainWin.open_mesh_from_main(argv[1]);
+	}
+
+	return app.exec();
+}
+#endif

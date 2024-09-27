@@ -74,7 +74,7 @@ public:
 	void backtracking_line_search_OMP(VectorXd& x, const VectorXd& d, const VectorXd& negetive_grad, double& alpha);
 
 	 
-
+	void Conservative_flip_mesh(VectorXd& x, const VectorXd& d, double& alpha);
 	void No_flip_mesh(VectorXd& x, const VectorXd& d, double& alpha);//find alpha to make Bezier mesh regular
 	int check_flip(VectorXd& x, const VectorXd& d, double& alpha);
 	void check_flip(char c);

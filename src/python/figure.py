@@ -3,16 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-subdivision_time=1
-subdivision_mode=0
-para=str(subdivision_time)+"_"+str(subdivision_mode)
-draw_time=0
+order=3
+subdivision_time=0
+subdivision_mode=2
+para=str(order)+"_"+str(subdivision_time)+"_"+str(subdivision_mode)
+draw_time=1
 # 文件路径
 file_path1 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\my_collision_time.txt"
 file_path2 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\ho_collision_time.txt"
 file_path3 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\my_collision_step.txt"
 file_path4 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\ho_collision_step.txt"
-file_path5 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\collision_step.txt"
+file_path5 = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\collision_step_" + str(order) + ".txt"
 time_path = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\time.png"
 step_path = "C:\\Git Code\\HighOrderDeformation\\src\\test_data\\exp1\\" + para + "\\step.png"
 
@@ -40,10 +41,24 @@ step_vals1 = np.array(step_vals1)
 step_vals2 = np.array(step_vals2)
 step_vals3 = np.array(step_vals3)
 
+# indices = np.where(step_vals1 > step_vals2)[0]
+# print(indices.size)
+# with open("C:/Git Code/HighOrderDeformation/src/test_data/exp1/1_2/indice.txt", "w") as f:
+#     for index in indices:
+#         f.write(f"{index}\n")
+
+# ratios = step_vals1 / step_vals2
+# top_10_indices = np.argsort(ratios)[-10:]  # 找到排序后最大的10个值的索引
+# top_10_values = ratios[top_10_indices]     # 获取对应的比值
+
+# # 输出最大的10个比值及其索引
+# for i in range(10):
+#     print(f"Index: {top_10_indices[i]}, Value: {top_10_values[i]}")
 
 
 eps = 1e-10  # 防止除以0的微小数值
 if draw_time:
+    #np.log(step_vals1)#
     step_vals = np.log(step_vals2 / (step_vals1 + eps))
     rate = np.sum(step_vals2)/np.sum(step_vals1)
 else:

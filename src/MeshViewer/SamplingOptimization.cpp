@@ -13435,13 +13435,18 @@ void SamplingOptimization::Optimization_OMP_with_cut()
 	double alpha = 0.95 * temp_t;
 	std::cout << "alpha:" << alpha << std::endl; 
 
+	std::cout << "alpha before regularize: " << alpha << std::endl;
+	Conservative_flip_mesh(position_of_mesh, d, alpha);
+	std::cout << "alpha after regularize: " << alpha << std::endl;
+
+
 	std::cout << "================  Backtracking Line Search : Start!!!  ==================" << std::endl;
 	 
 	backtracking_line_search_OMP(position_of_mesh, d, negative_grad, alpha);
 	std::cout << "================  Backtracking Line Search : Finished !!!  ==================" << std::endl;
 
-	No_flip_mesh(position_of_mesh, d, alpha);
-	std::cout << "==================  after flip checker,alpha: " << alpha << std::endl;
+	//No_flip_mesh(position_of_mesh, d, alpha);
+	//std::cout << "==================  after flip checker,alpha: " << alpha << std::endl;
 
 	position_of_mesh += alpha * d;
 	 
@@ -13649,6 +13654,37 @@ void SamplingOptimization::source_and_target_injective_checker()
 
 }
 
+#include "..\src\Exp\exp.h"
+void SamplingOptimization::Conservative_flip_mesh(VectorXd& x, const VectorXd& d, double& alpha)
+{
+	std::vector<CABT::mat3_10> val; val.resize(Tet_N);
+	std::vector<CABT::mat3_10> dir; dir.resize(Tet_N);
+	for (int i = 0; i < Tet_N; ++i)
+	{
+		val[i](0, 0) = x[F0[i]]; val[i](1, 0) = x[F0[i] + V_N]; val[i](2, 0) = x[F0[i] + 2 * V_N];
+		val[i](0, 1) = x[F6[i]]; val[i](1, 1) = x[F6[i] + V_N]; val[i](2, 1) = x[F6[i] + 2 * V_N];
+		val[i](0, 2) = x[F9[i]]; val[i](1, 2) = x[F9[i] + V_N]; val[i](2, 2) = x[F9[i] + 2 * V_N];
+		val[i](0, 3) = x[F2[i]]; val[i](1, 3) = x[F2[i] + V_N]; val[i](2, 3) = x[F2[i] + 2 * V_N];
+		val[i](0, 4) = x[F8[i]]; val[i](1, 4) = x[F8[i] + V_N]; val[i](2, 4) = x[F8[i] + 2 * V_N];
+		val[i](0, 5) = x[F5[i]]; val[i](1, 5) = x[F5[i] + V_N]; val[i](2, 5) = x[F5[i] + 2 * V_N];
+		val[i](0, 6) = x[F1[i]]; val[i](1, 6) = x[F1[i] + V_N]; val[i](2, 6) = x[F1[i] + 2 * V_N];
+		val[i](0, 7) = x[F7[i]]; val[i](1, 7) = x[F7[i] + V_N]; val[i](2, 7) = x[F7[i] + 2 * V_N];
+		val[i](0, 8) = x[F4[i]]; val[i](1, 8) = x[F4[i] + V_N]; val[i](2, 8) = x[F4[i] + 2 * V_N];
+		val[i](0, 9) = x[F3[i]]; val[i](1, 9) = x[F3[i] + V_N]; val[i](2, 9) = x[F3[i] + 2 * V_N];
+
+		dir[i](0, 0) = d[F0[i]]; dir[i](1, 0) = d[F0[i] + V_N]; dir[i](2, 0) = d[F0[i] + 2 * V_N];
+		dir[i](0, 1) = d[F6[i]]; dir[i](1, 1) = d[F6[i] + V_N]; dir[i](2, 1) = d[F6[i] + 2 * V_N];
+		dir[i](0, 2) = d[F9[i]]; dir[i](1, 2) = d[F9[i] + V_N]; dir[i](2, 2) = d[F9[i] + 2 * V_N];
+		dir[i](0, 3) = d[F2[i]]; dir[i](1, 3) = d[F2[i] + V_N]; dir[i](2, 3) = d[F2[i] + 2 * V_N];
+		dir[i](0, 4) = d[F8[i]]; dir[i](1, 4) = d[F8[i] + V_N]; dir[i](2, 4) = d[F8[i] + 2 * V_N];
+		dir[i](0, 5) = d[F5[i]]; dir[i](1, 5) = d[F5[i] + V_N]; dir[i](2, 5) = d[F5[i] + 2 * V_N];
+		dir[i](0, 6) = d[F1[i]]; dir[i](1, 6) = d[F1[i] + V_N]; dir[i](2, 6) = d[F1[i] + 2 * V_N];
+		dir[i](0, 7) = d[F7[i]]; dir[i](1, 7) = d[F7[i] + V_N]; dir[i](2, 7) = d[F7[i] + 2 * V_N];
+		dir[i](0, 8) = d[F4[i]]; dir[i](1, 8) = d[F4[i] + V_N]; dir[i](2, 8) = d[F4[i] + 2 * V_N];
+		dir[i](0, 9) = d[F3[i]]; dir[i](1, 9) = d[F3[i] + V_N]; dir[i](2, 9) = d[F3[i] + 2 * V_N];
+	}
+	CABT::exp2::run_morphing(val, dir, alpha);
+}
 
 void SamplingOptimization::No_flip_mesh(VectorXd& x, const VectorXd& d, double& alpha) //find alpha to make Bezier mesh regular
 {

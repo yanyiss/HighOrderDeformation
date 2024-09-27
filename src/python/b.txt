@@ -1,0 +1,1 @@
+We found that the cost of subdivision in this method is high, so reducing subdivisions can improve efficiency
